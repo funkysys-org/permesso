@@ -1,0 +1,28 @@
+# ClawHub catalog publish — reusable workflow from openclaw/clawhub.
+#
+# CURRENT MODE: DRY RUN (preview only, no token needed). Each push that
+# touches skills/ shows in the Actions tab what WOULD be published.
+#
+# To publish for real (owner, one-time):
+#   1. npm i -g clawhub && clawhub login    (device flow, GitHub sign-in)
+#   2. Add repo secret CLAWHUB_TOKEN        (clawhub token — from `clawhub token`)
+#   3. Flip dry_run below to false
+#
+# Note: skills published on ClawHub are released under MIT-0 (registry rule).
+name: ClawHub skill publish
+on:
+  push:
+    branches: [main]
+    paths: ["skills/**"]
+  workflow_dispatch: {}
+jobs:
+  publish:
+    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
+    with:
+      owner: funkysys-org
+      root: skills
+      dry_run: true
+      categories: security,operations
+      topics: vulnerability-scanning,hardening,reports
+    secrets:
+      clawhub_token: ${{ secrets.CLAWHUB_TOKEN }}
