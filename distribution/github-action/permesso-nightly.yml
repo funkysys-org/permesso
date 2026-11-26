@@ -1,3 +1,5 @@
+# TEMPLATE — copy to .github/workflows/ ONLY AFTER setting the 3 secrets
+# below (until then the nightly job would fail for missing secrets).
 # Nightly authorized scan with drift alerting (uses `permesso monitor`).
 #
 # One-time setup (repo Settings → Secrets and variables → Actions):

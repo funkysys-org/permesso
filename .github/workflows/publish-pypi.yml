@@ -1,4 +1,5 @@
 # Publish permesso to PyPI on version tags — INACTIVE until a Trusted
+# NOTE: this file MUST live in .github/workflows/ to run — do not move it back.
 # Publisher is registered on PyPI (no tokens, no secrets needed):
 #
 #   1. Verify the name is free / claim it: https://pypi.org (project "permesso")
