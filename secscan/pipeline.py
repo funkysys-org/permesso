@@ -71,6 +71,13 @@ def run_scan(
             })
 
     findings = enhance(results.sorted())
+
+    if opts.get("plain_language"):
+        from . import writer
+        lang = opts.get("lang", "en")
+        for f in findings:
+            f.metadata["plain_meaning"] = writer.plain_meaning(f, lang=lang)
+
     finished = dt.datetime.now(dt.timezone.utc)
     result = ScanResult(
         host=spec.host, ports=spec.ports,

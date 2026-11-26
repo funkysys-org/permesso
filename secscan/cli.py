@@ -8,6 +8,9 @@ import sys
 import time
 
 from . import __version__, authorization as authz
+from .branding import load as load_branding
+from .history import diff as diff_scans
+from .history import render_text as render_diff
 from .pipeline import run_scan
 from .report.html import render
 from .targets import TargetSpec
@@ -45,6 +48,8 @@ def _cmd_scan(args) -> int:
         "auth_dir": args.auth_dir or authz.DEFAULT_AUTH_DIR,
         "adapter_timeout": args.adapter_timeout,
         "lynis_report": args.lynis_report,
+        "plain_language": args.plain_language,
+        "lang": args.lang,
     }
     try:
         result, doc = run_scan(spec, key, opts)
@@ -55,7 +60,7 @@ def _cmd_scan(args) -> int:
     json_path = args.json or f"scan-{spec.host}-{stamp}.json"
     out_path = args.out or f"report-{spec.host}-{stamp}.html"
     pathlib.Path(json_path).write_text(json.dumps(doc, indent=2))
-    pathlib.Path(out_path).write_text(render(doc))
+    pathlib.Path(out_path).write_text(render(doc, load_branding(args.branding)))
     counts = doc["counts"]
     total = len(doc["findings"])
     print(f"scan complete: {total} finding(s) "
@@ -70,9 +75,19 @@ def _cmd_scan(args) -> int:
 
 def _cmd_report(args) -> int:
     doc = json.loads(pathlib.Path(args.json).read_text())
-    pathlib.Path(args.out).write_text(render(doc))
+    pathlib.Path(args.out).write_text(render(doc, load_branding(args.branding)))
     print(f"report: {args.out}")
     return 0
+
+
+def _cmd_diff(args) -> int:
+    old = diff_scans(json.loads(pathlib.Path(args.old).read_text()),
+                     json.loads(pathlib.Path(args.new).read_text()))
+    text = render_diff(old)
+    print(text)
+    if args.out:
+        pathlib.Path(args.out).write_text(text + "\n")
+    return 10 if old["has_new_high"] else 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -107,14 +122,26 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--adapter-timeout", type=int, default=600)
     p.add_argument("--lynis-report", default=None,
                    help="path to a lynis-report.dat from the target server")
+    p.add_argument("--branding", default=None, help="branding.json path")
     p.add_argument("--out", default=None, help="HTML report path")
     p.add_argument("--json", default=None, help="machine-readable scan path")
+    p.add_argument("--plain-language", action="store_true",
+                   help="add customer-friendly 'what this means' text per finding")
+    p.add_argument("--lang", default="en", choices=("en", "it"),
+                   help="language for plain-language text")
     p.set_defaults(fn=_cmd_scan)
 
     p = sub.add_parser("report", help="re-render a report from a scan JSON")
     p.add_argument("--json", required=True)
     p.add_argument("--out", required=True)
+    p.add_argument("--branding", default=None, help="branding.json path")
     p.set_defaults(fn=_cmd_report)
+
+    p = sub.add_parser("diff", help="compare two scan JSONs (drift)")
+    p.add_argument("old")
+    p.add_argument("new")
+    p.add_argument("--out", default=None, help="save the drift text to a file")
+    p.set_defaults(fn=_cmd_diff)
 
     args = parser.parse_args(argv)
     return args.fn(args)
