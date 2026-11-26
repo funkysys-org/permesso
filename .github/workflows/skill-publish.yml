@@ -1,12 +1,22 @@
 # ClawHub catalog publish — reusable workflow from openclaw/clawhub.
 #
-# CURRENT MODE: DRY RUN (preview only, no token needed). Each push that
-# touches skills/ shows in the Actions tab what WOULD be published.
+# CURRENT MODE: DRY RUN (preview only, no token needed).
+#
+# If this workflow shows startup_failure:
+#   → repo/org Settings → Actions → General → Actions permissions must allow
+#     "all actions and reusable workflows" (the call targets openclaw/clawhub,
+#     a repo outside funkysys-org).
 #
 # To publish for real (owner, one-time):
 #   1. npm i -g clawhub && clawhub login    (device flow, GitHub sign-in)
 #   2. Add repo secret CLAWHUB_TOKEN        (clawhub token — from `clawhub token`)
 #   3. Flip dry_run below to false
+#
+# Manual fallback (no CI needed, from the owner's machine):
+#   clawhub skill publish skills/permesso \
+#     --slug permesso --name "permesso" \
+#     --categories security,operations \
+#     --topics "vulnerability-scanning,hardening,reports"
 #
 # Note: skills published on ClawHub are released under MIT-0 (registry rule).
 name: ClawHub skill publish
@@ -20,9 +30,4 @@ jobs:
     uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
     with:
       owner: funkysys-org
-      root: skills
       dry_run: true
-      categories: security,operations
-      topics: vulnerability-scanning,hardening,reports
-    secrets:
-      clawhub_token: ${{ secrets.CLAWHUB_TOKEN }}
