@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>permesso — scansioni di sicurezza con permesso. Sempre.</title>
+<meta name="description" content="permesso: scansioni di sicurezza autorizzate per siti web e server, con report chiari in italiano. Per PMI e agenzie web. Open source, MIT.">
+<style>
+:root{--ink:#182635;--muted:#5b6470;--line:#e5e2da;--paper:#fbfaf7;--card:#fff;
+--navy:#14273d;--navy2:#0e1b2e;--amber:#e8a13a;--green:#2e7d4f;--red:#b3402a}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+background:var(--paper);color:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header{background:var(--navy2);color:#fff;position:sticky;top:0;z-index:9;
+border-bottom:3px solid var(--amber)}
+.nav{display:flex;align-items:center;gap:22px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;
+color:#fff;text-decoration:none;font-size:17px}
+.logo svg{display:block}
+.nav nav{margin-left:auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.nav nav a{color:#c9d4e2;text-decoration:none;font-size:14px}
+.nav nav a:hover{color:#fff}
+.langs button{background:none;border:1px solid #33465e;color:#c9d4e2;font-size:12px;
+padding:3px 9px;border-radius:12px;cursor:pointer}
+.langs button.on{background:var(--amber);border-color:var(--amber);color:#1c2430;font-weight:700}
+.hero{background:var(--navy2);color:#fff;padding:64px 0 70px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+.badge{display:inline-block;background:rgba(232,161,58,.15);color:var(--amber);
+border:1px solid rgba(232,161,58,.4);font-size:12px;font-weight:700;letter-spacing:.6px;
+padding:4px 12px;border-radius:14px;margin-bottom:18px}
+h1{font-size:40px;line-height:1.12;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--amber)}
+.sub{color:#b9c5d4;font-size:17px;margin:18px 0 26px;max-width:46ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 20px;border-radius:9px;text-decoration:none;
+font-weight:700;font-size:15px}
+.btn.pri{background:var(--amber);color:#1c2430}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.sec{border:1.5px solid #3a4d66;color:#e7edf4}
+.btn.sec:hover{border-color:#8fa3ba}
+.term{background:#0a1420;border:1px solid #22364c;border-radius:12px;
+box-shadow:0 18px 44px rgba(0,0,0,.35);overflow:hidden}
+.term .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid #22364c}
+.term .bar i{width:10px;height:10px;border-radius:50%;background:#2c425c}
+.term .bar i:first-child{background:var(--amber)}
+.term pre{padding:18px;font:12px/1.75 ui-monospace,Menlo,Consolas,monospace;color:#c9d4e2;overflow-x:auto}
+.term .c{color:#5f7488}.term .p{color:#8fd0a0}.term .k{color:var(--amber)}
+h2{font-size:26px;letter-spacing:-.3px;margin-bottom:6px}
+.kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--amber);text-transform:uppercase}
+section{padding:64px 0}
+section.alt{background:var(--card);border-block:1px solid var(--line)}
+.lead{color:var(--muted);max-width:62ch;margin-bottom:30px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+section.alt .card{background:var(--paper)}
+.card h3{font-size:16.5px;margin:10px 0 6px}
+.card p{font-size:14px;color:var(--muted)}
+.n{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--navy);
+color:var(--amber);font-weight:800;align-items:center;justify-content:center;font-size:14px}
+.step{position:relative}
+.steps .card{border-top:3px solid var(--amber)}
+.feat .card{border-left:4px solid var(--navy)}
+.ic{font-size:20px}
+.band{background:var(--navy);color:#fff;text-align:center;padding:54px 22px}
+.band p{font-size:22px;font-weight:700;max-width:30ch;margin:0 auto}
+.band small{display:block;margin-top:10px;color:#9fb0c4;font-weight:400;font-size:14px}
+.report-band .card{display:flex;gap:20px;align-items:center;justify-content:space-between;
+flex-wrap:wrap;border-left:4px solid var(--green)}
+footer{background:var(--navy2);color:#9fb0c4;padding:34px 0;font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:#c9d4e2}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding:48px 0}
+h1{font-size:32px}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav">
+  <a class="logo" href="#">
+    <svg width="30" height="30" viewBox="0 0 120 120" aria-hidden="true">
+      <rect width="120" height="120" rx="26" fill="#e8a13a"/>
+      <rect x="20" y="28" width="66" height="50" rx="7" fill="#fff"/>
+      <rect x="20" y="28" width="66" height="12" rx="6" fill="#14273d"/>
+      <rect x="28" y="48" width="36" height="5" rx="2.5" fill="#c7cfd9"/>
+      <rect x="28" y="57" width="27" height="5" rx="2.5" fill="#c7cfd9"/>
+      <polyline points="29,70 35,76 46,63" fill="none" stroke="#2e7d4f" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="87" cy="81" r="18" fill="#14273d" stroke="#fff" stroke-width="5"/>
+      <polyline points="79,81 85,87 96,74" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    permesso
+  </a>
+  <nav>
+    <a href="#perche" data-i="nav_why">Perché</a>
+    <a href="#come" data-i="nav_how">Come funziona</a>
+    <a href="#esempio" data-i="nav_example">Report d'esempio</a>
+    <a href="#" data-i="nav_github">GitHub ↗</a>
+    <span class="langs">
+      <button id="btn-it" class="on" onclick="setLang('it')">IT</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </span>
+  </nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="badge" data-i="badge">MVP open-source · licenza MIT · zero dipendenze</span>
+    <h1 data-i="h1">Nessuna scansione<br>senza <em>permesso</em>.</h1>
+    <p class="sub" data-i="sub">Scansioni di sicurezza autorizzate per siti web e server, che diventano report chiari che chiunque sa leggere e sistemare. Pensato per PMI e agenzie web.</p>
+    <div class="cta">
+      <a class="btn pri" href="esempio-report.html" data-i="cta_report">Guarda un report vero</a>
+      <a class="btn sec" href="#" data-i="cta_github">Su GitHub ↗</a>
+    </div>
+  </div>
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <pre><span class="c"># <span data-i="t1">1 — firmi il permesso per il tuo target</span></span>
+<span class="p">$</span> permesso authorize --target www.tuosito.it \
+    --owner te@esempio.it
+
+<span class="c"># <span data-i="t2">2 — scansioni (il gate verifica la firma)</span></span>
+<span class="p">$</span> permesso scan --target www.tuosito.it \
+    --plain-language --lang it --out report.html
+
+<span class="c"># <span data-i="t3">3 — controlli cosa è cambiato, ogni notte</span></span>
+<span class="p">$</span> permesso diff scan-old.json scan-new.json</pre>
+  </div>
+</div></div>
+
+<section id="perche"><div class="wrap">
+  <div class="kicker" data-i="why_k">Perché esiste</div>
+  <h2 data-i="why_h">La sicurezza web è o rumore, o proibitiva.</h2>
+  <p class="lead" data-i="why_l">Ci abbiamo provato tutti: i tool gratuiti sputano centinaia di allarmi incomprensibili, i pentest seri costano migliaia di euro. Nel mezzo, le PMI e le agenzie restano scoperte.</p>
+  <div class="grid3">
+    <div class="card"><span class="ic">📉</span><h3 data-i="why1_t">Rumore, non risposte</h3><p data-i="why1_d">Nuclei, Nikto e compagnia elencano risultati tecnici senza dire cosa significano per il tuo business, né da dove iniziare.</p></div>
+    <div class="card"><span class="ic">💸</span><h3 data-i="why2_t">Enterprise-only</h3><p data-i="why2_d">Le piattaforme di pentesting automatico partono da decine di migliaia di euro l'anno. Per un sito vetrina o cinque server, è fuori scala.</p></div>
+    <div class="card"><span class="ic">🪤</span><h3 data-i="why3_t">Anche i tool possono essere trappole</h3><p data-i="why3_d">Il supply chain dei plugin AI è già stato usato per spacciare porte posteriori come «piattaforme di sicurezza». permesso verifica le origini e non tocca nessun target senza consenso firmato.</p></div>
+  </div>
+</div></section>
+
+<section id="come" class="alt"><div class="wrap">
+  <div class="kicker" data-i="how_k">Come funziona</div>
+  <h2 data-i="how_h">Tre passi, un solo principio.</h2>
+  <p class="lead" data-i="how_l">Un binario, nessuna dipendenza runtime, tutta la configurazione su file leggibili. Funziona da CLI, in CI e dentro i tuoi agenti AI.</p>
+  <div class="grid3 steps">
+    <div class="card step"><span class="n">1</span><h3 data-i="s1_t">Autorizzi</h3><p data-i="s1_d">Firmi un permesso per il target: perimetro, titolare, scadenza. È una firma HMAC su file — niente permesso, niente scansione: il gate blocca prima di un solo pacchetto di rete.</p></div>
+    <div class="card step"><span class="n">2</span><h3 data-i="s2_t">Scansioni</h3><p data-i="s2_d">Controlli passivi integrati (header, TLS, cookie) più nuclei, testssl.sh, ssh-audit e Lynis quando disponibili. Licenze verificate: il GPL gira solo come processo esterno.</p></div>
+    <div class="card step"><span class="n">3</span><h3 data-i="s3_t">Capisci e sistemi</h3><p data-i="s3_d">Ogni rilievo dice «cosa significa» in linguaggio umano e come sistemarlo, con le evidenze. Report HTML brandizzabile, in italiano o inglese.</p></div>
+  </div>
+</div></section>
+
+<section class="feat"><div class="wrap">
+  <div class="kicker" data-i="feat_k">Cosa c'è dentro</div>
+  <h2 data-i="feat_h">Piccolo, verificabile, onesto.</h2>
+  <p class="lead" data-i="feat_l">Le funzioni sono quelle di un prodotto finito, non di un esperimento.</p>
+  <div class="grid3">
+    <div class="card"><span class="ic">✍️</span><h3 data-i="f1_t">Gate di autorizzazione firmato</h3><p data-i="f1_d">Firma HMAC, perimetro, scadenza, rigetto di manomissioni. Testato contro 6 casi d'abuso.</p></div>
+    <div class="card"><span class="ic">🔎</span><h3 data-i="f2_t">5 adattatori di scansione</h3><p data-i="f2_d">Passivo integrato, nuclei, testssl.sh, ssh-audit, Lynis. Gli strumenti mancanti compaiono nel report come «non eseguiti», mai silenziosi.</p></div>
+    <div class="card"><span class="ic">🗣️</span><h3 data-i="f3_t">Linguaggio umano, IT/EN</h3><p data-i="f3_d">Ogni rilievo è tradotto in impatto reale e azione concreta. Pronto per un livello LLM opzionale.</p></div>
+    <div class="card"><span class="ic">🌙</span><h3 data-i="f4_t">Modalità continua</h3><p data-i="f4_d">diff tra scansioni: nuovi, risolti, invariati. Exit code per allarmi automatici quando compare un problema grave.</p></div>
+    <div class="card"><span class="ic">🏷️</span><h3 data-i="f5_t">Report brandizzabili</h3><p data-i="f5_d">Nome, logo e colori della tua agenzia nel PDF che consegni al cliente. Tu resti la voce, noi il motore.</p></div>
+    <div class="card"><span class="ic">🤖</span><h3 data-i="f6_t">Agent-native</h3><p data-i="f6_d">CLI, GitHub Action e uno skill per gli hub di agenti: i tuoi strumenti AI sanno già usarlo.</p></div>
+  </div>
+</div></section>
+
+<div class="band"><p data-i="principle">«Il permesso è il prodotto.»</p>
+<small data-i="principle_s">Il gate di autorizzazione non si disattiva: ogni report è coperto da una firma, con perimetro e scadenza. La fiducia non è una feature — è il requisito.</small></div>
+
+<section id="esempio" class="report-band"><div class="wrap">
+  <div class="card">
+    <div>
+      <div class="kicker" data-i="ex_k">Esempio reale</div>
+      <h2 data-i="ex_h">Un report, prima che tu scarichi nulla.</h2>
+      <p class="lead" data-i="ex_d">Generato su un server di demo volutamente debole: 7 rilievi, spiegati in italiano, con i rimedi. Formato identico a quello che riceverai.</p>
+    </div>
+    <a class="btn pri" href="esempio-report.html" data-i="ex_cta">Apri il report d'esempio →</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>© 2026 permesso · <a href="#" data-i="f_repo">codice sorgente</a> · MIT</div>
+  <div data-i="f_note">Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu.</div>
+</div></footer>
+
+<script>
+const I18N = {
+ it: {"nav_why":"Perché","nav_how":"Come funziona","nav_example":"Report d'esempio","nav_github":"GitHub ↗",
+  "badge":"MVP open-source · licenza MIT · zero dipendenze",
+  "h1":"Nessuna scansione<br>senza <em>permesso</em>.",
+  "sub":"Scansioni di sicurezza autorizzate per siti web e server, che diventano report chiari che chiunque sa leggere e sistemare. Pensato per PMI e agenzie web.",
+  "cta_report":"Guarda un report vero","cta_github":"Su GitHub ↗",
+  "t1":"1 — firmi il permesso per il tuo target","t2":"2 — scansioni (il gate verifica la firma)","t3":"3 — controlli cosa è cambiato, ogni notte",
+  "why_k":"Perché esiste","why_h":"La sicurezza web è o rumore, o proibitiva.",
+  "why_l":"Ci abbiamo provato tutti: i tool gratuiti sputano centinaia di allarmi incomprensibili, i pentest seri costano migliaia di euro. Nel mezzo, le PMI e le agenzie restano scoperte.",
+  "why1_t":"Rumore, non risposte","why1_d":"Nuclei, Nikto e compagnia elencano risultati tecnici senza dire cosa significano per il tuo business, né da dove iniziare.",
+  "why2_t":"Enterprise-only","why2_d":"Le piattaforme di pentesting automatico partono da decine di migliaia di euro l'anno. Per un sito vetrina o cinque server, è fuori scala.",
+  "why3_t":"Anche i tool possono essere trappole","why3_d":"Il supply chain dei plugin AI è già stato usato per spacciare porte posteriori come «piattaforme di sicurezza». permesso verifica le origini e non tocca nessun target senza consenso firmato.",
+  "how_k":"Come funziona","how_h":"Tre passi, un solo principio.",
+  "how_l":"Un binario, nessuna dipendenza runtime, tutta la configurazione su file leggibili. Funziona da CLI, in CI e dentro i tuoi agenti AI.",
+  "s1_t":"Autorizzi","s1_d":"Firmi un permesso per il target: perimetro, titolare, scadenza. È una firma HMAC su file — niente permesso, niente scansione: il gate blocca prima di un solo pacchetto di rete.",
+  "s2_t":"Scansioni","s2_d":"Controlli passivi integrati (header, TLS, cookie) più nuclei, testssl.sh, ssh-audit e Lynis quando disponibili. Licenze verificate: il GPL gira solo come processo esterno.",
+  "s3_t":"Capisci e sistemi","s3_d":"Ogni rilievo dice «cosa significa» in linguaggio umano e come sistemarlo, con le evidenze. Report HTML brandizzabile, in italiano o inglese.",
+  "feat_k":"Cosa c'è dentro","feat_h":"Piccolo, verificabile, onesto.","feat_l":"Le funzioni sono quelle di un prodotto finito, non di un esperimento.",
+  "f1_t":"Gate di autorizzazione firmato","f1_d":"Firma HMAC, perimetro, scadenza, rigetto di manomissioni. Testato contro 6 casi d'abuso.",
+  "f2_t":"5 adattatori di scansione","f2_d":"Passivo integrato, nuclei, testssl.sh, ssh-audit, Lynis. Gli strumenti mancanti compaiono nel report come «non eseguiti», mai silenziosi.",
+  "f3_t":"Linguaggio umano, IT/EN","f3_d":"Ogni rilievo è tradotto in impatto reale e azione concreta. Pronto per un livello LLM opzionale.",
+  "f4_t":"Modalità continua","f4_d":"diff tra scansioni: nuovi, risolti, invariati. Exit code per allarmi automatici quando compare un problema grave.",
+  "f5_t":"Report brandizzabili","f5_d":"Nome, logo e colori della tua agenzia nel PDF che consegni al cliente. Tu resti la voce, noi il motore.",
+  "f6_t":"Agent-native","f6_d":"CLI, GitHub Action e uno skill per gli hub di agenti: i tuoi strumenti AI sanno già usarlo.",
+  "principle":"«Il permesso è il prodotto.»",
+  "principle_s":"Il gate di autorizzazione non si disattiva: ogni report è coperto da una firma, con perimetro e scadenza. La fiducia non è una feature — è il requisito.",
+  "ex_k":"Esempio reale","ex_h":"Un report, prima che tu scarichi nulla.",
+  "ex_d":"Generato su un server di demo volutamente debole: 7 rilievi, spiegati in italiano, con i rimedi. Formato identico a quello che riceverai.",
+  "ex_cta":"Apri il report d'esempio →","f_repo":"codice sorgente",
+  "f_note":"Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu."},
+ en: {"nav_why":"Why","nav_how":"How it works","nav_example":"Sample report","nav_github":"GitHub ↗",
+  "badge":"Open-source MVP · MIT licensed · zero dependencies",
+  "h1":"No scan<br>without <em>permission</em>.",
+  "sub":"Authorized security scans for websites and servers, turned into clear reports anyone can read and act on. Built for SMBs and web agencies.",
+  "cta_report":"See a real report","cta_github":"On GitHub ↗",
+  "t1":"1 — sign the permit for your target","t2":"2 — scan (the gate verifies the signature)","t3":"3 — track what changed, every night",
+  "why_k":"Why it exists","why_h":"Web security is either noise, or prohibitive.",
+  "why_l":"We've all been there: free tools dump hundreds of incomprehensible alerts, serious pentests cost thousands. In between, SMBs and agencies stay exposed.",
+  "why1_t":"Noise, not answers","why1_d":"Nuclei, Nikto and friends list technical findings without telling what they mean for your business, or where to start.",
+  "why2_t":"Enterprise-only","why2_d":"Automated pentesting platforms start at tens of thousands per year. For a brochure site or five servers, that's out of scale.",
+  "why3_t":"Even security tools can be traps","why3_d":"AI plugin supply chains have already been used to smuggle backdoors as \"security platforms\". permesso verifies origins and never touches a target without a signed consent.",
+  "how_k":"How it works","how_h":"Three steps, one principle.",
+  "how_l":"One binary, no runtime dependencies, all configuration in readable files. Works as a CLI, in CI, and inside your AI agents.",
+  "s1_t":"Authorize","s1_d":"Sign a permit for the target: scope, owner, expiry. An HMAC signature on a file — no permit, no scan: the gate blocks before a single network packet.",
+  "s2_t":"Scan","s2_d":"Built-in passive checks (headers, TLS, cookies) plus nuclei, testssl.sh, ssh-audit and Lynis when available. Verified licenses: GPL tools run as external processes only.",
+  "s3_t":"Understand and fix","s3_d":"Every finding says \"what this means\" in plain language and how to fix it, with evidence. Brandable HTML report, in Italian or English.",
+  "feat_k":"What's inside","feat_h":"Small, verifiable, honest.","feat_l":"The features are those of a finished product, not an experiment.",
+  "f1_t":"Signed authorization gate","f1_d":"HMAC signature, scope, expiry, tamper rejection. Tested against 6 abuse cases.",
+  "f2_t":"5 scan adapters","f2_d":"Built-in passive, nuclei, testssl.sh, ssh-audit, Lynis. Missing tools appear in the report as \"skipped\", never silently.",
+  "f3_t":"Human language, IT/EN","f3_d":"Every finding is translated into real impact and a concrete action. Ready for an optional LLM layer.",
+  "f4_t":"Continuous mode","f4_d":"diff between scans: new, resolved, unchanged. Exit codes for automatic alerts when something serious appears.",
+  "f5_t":"Brandable reports","f5_d":"Your agency's name, logo and colors on the PDF you hand the client. You stay the voice, we stay the engine.",
+  "f6_t":"Agent-native","f6_d":"CLI, GitHub Action and a skill for agent hubs: your AI tools already know how to use it.",
+  "principle":"\u201cPermission is the product.\u201d",
+  "principle_s":"The authorization gate cannot be switched off: every report is backed by a signature, with scope and expiry. Trust isn't a feature — it's the requirement.",
+  "ex_k":"A real example","ex_h":"See a report before you download anything.",
+  "ex_d":"Generated against a deliberately weak demo server: 7 findings, explained in plain language, with fixes. Same format you'll get.",
+  "ex_cta":"Open the sample report →","f_repo":"source code",
+  "f_note":"Only scan what you are authorized to test. The permit is yours to sign."}
+};
+function setLang(l){
+  document.documentElement.lang = l;
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    const v = I18N[l][el.dataset.i]; if(v!==undefined) el.innerHTML=v;
+  });
+  document.getElementById("btn-it").classList.toggle("on",l==="it");
+  document.getElementById("btn-en").classList.toggle("on",l==="en");
+  try{localStorage.setItem("permesso-lang",l)}catch(e){}
+}
+try{const s=localStorage.getItem("permesso-lang"); if(s&&s!=="it") setLang(s);}catch(e){}
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agencia X · Security — Report di scansione di sicurezza — 127.0.0.1</title>
+<style>
+:root{--ink:#1c2430;--muted:#5b6470;--line:#dfe3ea;--bg:#fbfbf9;--accent:#7c2d12}
+*{box-sizing:border-box}
+body{font:15px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+color:var(--ink);background:#fff;margin:0}
+.wrap{max-width:880px;margin:0 auto;padding:40px 28px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:18px;margin:34px 0 10px;border-bottom:2px solid var(--accent);
+padding-bottom:6px}
+.logo{font-weight:800;letter-spacing:1px;color:var(--accent);font-size:13px;
+text-transform:uppercase;margin-bottom:14px}
+.muted{color:var(--muted)}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin:18px 0;font-size:13.5px}
+.meta div{border-bottom:1px solid var(--line);padding:5px 0}
+.meta b{font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{color:#fff;font-weight:700;font-size:12.5px;padding:4px 10px;border-radius:20px}
+.summary{background:var(--bg);border:1px solid var(--line);border-radius:8px;
+padding:14px 16px;margin:18px 0}
+.notice{background:#fdf6ec;border:1px solid #ead9bd;border-radius:8px;
+padding:10px 14px;margin:12px 0;font-size:13.5px}
+.card{border:1px solid var(--line);border-left:5px solid var(--muted);
+border-radius:8px;padding:14px 16px;margin:12px 0}
+.card .head{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.card h3{font-size:15.5px;margin:0}
+.badge{color:#fff;font-size:11px;font-weight:800;letter-spacing:.6px;
+padding:2px 8px;border-radius:4px;white-space:nowrap}
+.card .src{font-size:12px;color:var(--muted);margin:4px 0 8px}
+pre{background:#f4f5f7;border:1px solid var(--line);border-radius:6px;
+padding:8px 10px;font-size:12.5px;overflow-x:auto;white-space:pre-wrap;
+word-break:break-word;margin:6px 0}
+.remediation,.meaning{font-size:14px;margin:6px 0 0}
+.refs{font-size:12px;margin-top:6px}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;
+font-size:12px;color:var(--muted)}
+@media print{.wrap{max-width:none;padding:0}}
+</style></head>
+<body><div class="wrap">
+<div class="logo">Agencia X · Security</div>
+<h1>Report di scansione di sicurezza</h1>
+<div class="muted">generato da Agencia X · Security · preparato da Agencia X</div>
+<div class="chips"><span class="chip" style="background:#a4080e">CRITICAL 0</span><span class="chip" style="background:#d13b10">HIGH 0</span><span class="chip" style="background:#c78a03">MEDIUM 2</span><span class="chip" style="background:#3a7a2a">LOW 3</span><span class="chip" style="background:#5b6470">INFO 2</span></div>
+<div class="summary">Scan of 127.0.0.1 found 0 critical, 0 high, 2 medium and 3 low severity findings — no critical or high-severity issues, but hardening is recommended.</div>
+<h2>Perimetro e autorizzazione</h2>
+<div class="meta">
+  <div><b>Obiettivo</b> 127.0.0.1</div>
+  <div><b>Porte</b> 8099</div>
+  <div><b>Autorizzato da</b> demo@example.com</div>
+  <div><b>Perimetro</b> host</div>
+  <div><b>Rilasciato</b> 2026-11-26T09:25:02+00:00</div>
+  <div><b>Scade</b> 2026-12-26T09:25:02+00:00</div>
+  <div><b>Scansione iniziata</b> 2026-11-26T09:25:14+00:00</div>
+  <div><b>Scansione finita</b> 2026-11-26T09:25:14+00:00</div>
+</div>
+
+<h2>Risultati (7)</h2>
+
+<div class="card" style="border-left-color:#c78a03">
+  <div class="head"><h3>Cookie without HttpOnly flag</h3>
+  <span class="badge" style="background:#c78a03">MEDIUM</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-88a1e3a67f</div>
+  <pre>sid=demo123; Path=/</pre><p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Set HttpOnly on session cookies.</p>
+  
+</div>
+<div class="card" style="border-left-color:#c78a03">
+  <div class="head"><h3>Missing security header: content-security-policy</h3>
+  <span class="badge" style="background:#c78a03">MEDIUM</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-e34d7128c4</div>
+  <p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Add a Content-Security-Policy to mitigate XSS.</p>
+  
+</div>
+<div class="card" style="border-left-color:#3a7a2a">
+  <div class="head"><h3>Missing security header: referrer-policy</h3>
+  <span class="badge" style="background:#3a7a2a">LOW</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-db1443bd59</div>
+  <p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Add a Referrer-Policy header (e.g. strict-origin-when-cross-origin).</p>
+  
+</div>
+<div class="card" style="border-left-color:#3a7a2a">
+  <div class="head"><h3>Missing security header: x-content-type-options</h3>
+  <span class="badge" style="background:#3a7a2a">LOW</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-0aa1a8d0f1</div>
+  <p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Add X-Content-Type-Options: nosniff.</p>
+  
+</div>
+<div class="card" style="border-left-color:#3a7a2a">
+  <div class="head"><h3>Missing security header: x-frame-options</h3>
+  <span class="badge" style="background:#3a7a2a">LOW</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-7d2960b768</div>
+  <p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Add X-Frame-Options: DENY/SAMEORIGIN or a CSP frame-ancestors directive.</p>
+  
+</div>
+<div class="card" style="border-left-color:#5b6470">
+  <div class="head"><h3>Missing security header: permissions-policy</h3>
+  <span class="badge" style="background:#5b6470">INFO</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · headers · SEC-5a055447e1</div>
+  <p class="meaning"><b>Cosa significa:</b> I browser dei visitatori si fidano di quello che questo sito invia, ma mancano le protezioni standard: una pagina costruita ad hoc può eseguire script nelle sessioni dei visitatori (XSS) o usare il sito in frammenti/trappole.</p>
+  <p class="remediation"><b>Rimedio:</b> Add a Permissions-Policy to restrict browser features.</p>
+  
+</div>
+<div class="card" style="border-left-color:#5b6470">
+  <div class="head"><h3>Server banner discloses version</h3>
+  <span class="badge" style="background:#5b6470">INFO</span></div>
+  <div class="src">passive · http://127.0.0.1:8099
+   · info · SEC-b5a62c6877</div>
+  <pre>DemoNas/1.4.2 Python/3.13.16</pre><p class="meaning"><b>Cosa significa:</b> Osservazione a basso impatto: utile per la pulizia, non urgente.</p>
+  <p class="remediation"><b>Rimedio:</b> Suppress version tokens in the Server header.</p>
+  
+</div>
+<footer>Report riservato al cliente. Preparato da Agencia X con permesso.</footer>
+</div></body></html>
