@@ -33,8 +33,11 @@ SMBs and web agencies. One command, a report a human can act on.
 
 ## Quickstart
 
+Requires Python ≥ 3.10 — nothing else.
+
 ```bash
-pip install -e .
+# install straight from this repo
+pip install git+https://github.com/funkysys-org/permesso.git
 
 # one-time: create the signing key
 permesso keygen
@@ -45,8 +48,24 @@ permesso authorize --target www.example.com --owner you@example.com --days 30
 # scan (auto uses every adapter found on PATH; passive always runs)
 permesso scan --target www.example.com --out report.html
 
-# regenerate a report from a saved scan
-permesso report --json scan-*.json --out again.html
+# track what changed between two scans (exit 10 = new CRITICAL/HIGH)
+permesso diff scan-old.json scan-new.json
+```
+
+Optional deeper checks — install any of these and permesso picks them up
+automatically (missing ones are reported in the report as skipped):
+
+```bash
+pip install ssh-audit      # SSH algorithms + CVEs
+# nuclei:  https://github.com/projectdiscovery/nuclei/releases
+# testssl.sh / Lynis: see the license section below
+```
+
+Development install:
+
+```bash
+git clone https://github.com/funkysys-org/permesso.git
+cd permesso && pip install -e . && python3 -m unittest discover -s tests
 ```
 
 Local demo (no external target):

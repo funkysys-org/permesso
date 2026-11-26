@@ -16,5 +16,9 @@ dependencies = [] # v0 is stdlib-only by design
 [project.scripts]
 permesso = "permesso.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/funkysys-org/permesso"
+Repository = "https://github.com/funkysys-org/permesso"
+
 [tool.setuptools.packages.find]
 include = ["permesso*"]
