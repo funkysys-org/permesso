@@ -1,0 +1,128 @@
+{
+  "product": "permesso",
+  "version": "0.1.0",
+  "host": "127.0.0.1",
+  "ports": [
+    8123
+  ],
+  "started_at": "2026-11-26T09:50:47+00:00",
+  "finished_at": "2026-11-26T09:50:47+00:00",
+  "authorization": {
+    "product": "permesso",
+    "target": "127.0.0.1",
+    "scope": "host",
+    "owner": "prova@example.com",
+    "issued_at": "2026-11-26T09:50:47+00:00",
+    "expires_at": "2026-12-26T09:50:47+00:00"
+  },
+  "summary": "Scan of 127.0.0.1 found 0 critical, 0 high, 2 medium and 3 low severity findings \u2014 no critical or high-severity issues, but hardening is recommended.",
+  "counts": {
+    "INFO": 2,
+    "LOW": 3,
+    "MEDIUM": 2,
+    "HIGH": 0,
+    "CRITICAL": 0
+  },
+  "skipped": [],
+  "errors": [],
+  "findings": [
+    {
+      "title": "Cookie without HttpOnly flag",
+      "severity": "MEDIUM",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "sid=demo123; Path=/",
+      "remediation": "Set HttpOnly on session cookies.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-8b966e1b75"
+    },
+    {
+      "title": "Missing security header: content-security-policy",
+      "severity": "MEDIUM",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Content-Security-Policy to mitigate XSS.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-67da43647d"
+    },
+    {
+      "title": "Missing security header: referrer-policy",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Referrer-Policy header (e.g. strict-origin-when-cross-origin).",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-1f2bdb1712"
+    },
+    {
+      "title": "Missing security header: x-content-type-options",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add X-Content-Type-Options: nosniff.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-4f1b3c7f05"
+    },
+    {
+      "title": "Missing security header: x-frame-options",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add X-Frame-Options: DENY/SAMEORIGIN or a CSP frame-ancestors directive.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-ffc4b1d85b"
+    },
+    {
+      "title": "Missing security header: permissions-policy",
+      "severity": "INFO",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Permissions-Policy to restrict browser features.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Visitors' browsers trust what this site sends them, but standard protections are missing: a crafted page could run scripts inside a visitor's session (XSS) or frame the site to trick them."
+      },
+      "id": "SEC-e479b53882"
+    },
+    {
+      "title": "Server banner discloses version",
+      "severity": "INFO",
+      "source": "passive",
+      "target": "http://127.0.0.1:8123",
+      "category": "info",
+      "evidence": "DemoNas/1.4.2 Python/3.13.16",
+      "remediation": "Suppress version tokens in the Server header.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Low-impact observation \u2014 useful for cleanup, not urgent."
+      },
+      "id": "SEC-c3a7ac0f3d"
+    }
+  ]
+}

@@ -68,7 +68,7 @@ def _cmd_scan(args) -> int:
           f"M:{counts.get('MEDIUM', 0)} L:{counts.get('LOW', 0)} "
           f"I:{counts.get('INFO', 0)})")
     for s in doc["skipped"]:
-        print(f"skipped {s['adapter']}: {s['reason'][:100]}")
+        print(f"skipped {s['adapter']}: {s['reason']}")
     print(f"report: {out_path}\njson:   {json_path}")
     return 0
 
@@ -88,6 +88,12 @@ def _cmd_diff(args) -> int:
     if args.out:
         pathlib.Path(args.out).write_text(text + "\n")
     return 10 if old["has_new_high"] else 0
+
+
+def _cmd_doctor(args) -> int:
+    from .doctor import render
+    print(render())
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -142,6 +148,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("new")
     p.add_argument("--out", default=None, help="save the drift text to a file")
     p.set_defaults(fn=_cmd_diff)
+
+    p = sub.add_parser("doctor", help="check installed adapters, show install recipes")
+    p.set_defaults(fn=_cmd_doctor)
 
     args = parser.parse_args(argv)
     return args.fn(args)

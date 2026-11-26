@@ -52,13 +52,25 @@ permesso scan --target www.example.com --out report.html
 permesso diff scan-old.json scan-new.json
 ```
 
-Optional deeper checks — install any of these and permesso picks them up
-automatically (missing ones are reported in the report as skipped):
+Optional deeper checks — `permesso scan` always runs its built-in passive
+checks; the deeper adapters are used automatically when found on PATH.
+Run **`permesso doctor`** to see what is missing on your machine with
+copy-paste install commands for your platform (user-level installs, no root
+needed for the scanner itself):
 
 ```bash
-pip install ssh-audit      # SSH algorithms + CVEs
-# nuclei:  https://github.com/projectdiscovery/nuclei/releases
-# testssl.sh / Lynis: see the license section below
+permesso doctor
+```
+
+Quick reference (Linux, standard user):
+
+```bash
+pipx install ssh-audit        # SSH algorithms + CVE audit
+# nuclei:     see `permesso doctor` (release binary into ~/.local/bin)
+# testssl.sh: git clone --depth 1 https://github.com/drwetter/testssl.sh ~/.local/share/testssl.sh
+#             ln -sf ~/.local/share/testssl.sh/testssl.sh ~/.local/bin/testssl.sh
+# Lynis runs ON the target server as root: sudo apt install lynis
+#             then: permesso scan --target <host> --lynis-report /path/to/lynis-report.dat
 ```
 
 Development install:
