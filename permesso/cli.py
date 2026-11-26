@@ -50,6 +50,7 @@ def _cmd_scan(args) -> int:
         "lynis_report": args.lynis_report,
         "plain_language": args.plain_language,
         "lang": args.lang,
+        "validate": getattr(args, "validate", False),
     }
     try:
         result, doc = run_scan(spec, key, opts)
@@ -60,7 +61,9 @@ def _cmd_scan(args) -> int:
     json_path = args.json or f"scan-{spec.host}-{stamp}.json"
     out_path = args.out or f"report-{spec.host}-{stamp}.html"
     pathlib.Path(json_path).write_text(json.dumps(doc, indent=2))
-    pathlib.Path(out_path).write_text(render(doc, load_branding(args.branding)))
+    branding = load_branding(args.branding)
+    branding.setdefault("language", args.lang)  # --lang drives report labels too
+    pathlib.Path(out_path).write_text(render(doc, branding))
     counts = doc["counts"]
     total = len(doc["findings"])
     print(f"scan complete: {total} finding(s) "
@@ -96,6 +99,34 @@ def _cmd_doctor(args) -> int:
     return 0
 
 
+def _cmd_portal(args) -> int:
+    from .portal import build_portal
+    from .monitor import DEFAULT_HISTORY_DIR
+    history_dir = args.history_dir or DEFAULT_HISTORY_DIR
+    out = args.out or None
+    if out is None:
+        import pathlib
+        out = str(pathlib.Path(history_dir).expanduser() / "portal")
+    from .branding import load as load_branding
+    branding = load_branding(args.branding) if args.branding else None
+    try:
+        written = build_portal(history_dir, out, branding, title=args.title)
+    except SystemExit as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    for p in written:
+        print(f"wrote: {p}")
+    return 0
+
+
+def _cmd_pdf(args) -> int:
+    from . import pdf
+    out = args.out or str(pathlib.Path(args.html).with_suffix(".pdf"))
+    ok, detail = pdf.to_pdf(args.html, out)
+    print(detail)
+    return 0 if ok else 3
+
+
 def _cmd_monitor(args) -> int:
     try:
         spec = TargetSpec.parse(args.target, args.ports)
@@ -110,6 +141,7 @@ def _cmd_monitor(args) -> int:
         "lynis_report": args.lynis_report,
         "plain_language": args.plain_language,
         "lang": args.lang,
+        "validate": getattr(args, "validate", False),
         "branding": args.branding,
         "history_dir": args.history_dir,
         "out": args.out,
@@ -167,6 +199,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--json", default=None, help="machine-readable scan path")
     p.add_argument("--plain-language", action="store_true",
                    help="add customer-friendly 'what this means' text per finding")
+    p.add_argument("--validate", action="store_true",
+                   help="non-destructive validation: re-check every passive finding "
+                        "with an independent second observation")
     p.add_argument("--lang", default="en", choices=("en", "it"),
                    help="language for plain-language text")
     p.set_defaults(fn=_cmd_scan)
@@ -186,6 +221,21 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("doctor", help="check installed adapters, show install recipes")
     p.set_defaults(fn=_cmd_doctor)
 
+    p = sub.add_parser("portal", help="build the static client portal / agency "
+                                      "console from scan history")
+    p.add_argument("--history-dir", default=None,
+                   help="default: ~/.permesso/history")
+    p.add_argument("--out", default=None, help="output dir (default: <history>/portal)")
+    p.add_argument("--branding", default=None)
+    p.add_argument("--title", default=None, help="index page title")
+    p.set_defaults(fn=_cmd_portal)
+
+    p = sub.add_parser("pdf", help="export an HTML report to PDF "
+                                   "(wkhtmltopdf or headless Chromium, external)")
+    p.add_argument("html")
+    p.add_argument("--out", default=None)
+    p.set_defaults(fn=_cmd_pdf)
+
     p = sub.add_parser("monitor", help="scan + keep history + drift vs previous run "
                                        "(exit 10 on new CRITICAL/HIGH — cron/CI ready)")
     p.add_argument("--target", required=True)
@@ -196,6 +246,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--adapter-timeout", type=int, default=600)
     p.add_argument("--lynis-report", default=None)
     p.add_argument("--plain-language", action="store_true")
+    p.add_argument("--validate", action="store_true",
+                   help="non-destructive finding validation")
     p.add_argument("--lang", default="en", choices=("en", "it"))
     p.add_argument("--branding", default=None)
     p.add_argument("--history-dir", default=None,

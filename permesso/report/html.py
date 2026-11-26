@@ -26,6 +26,7 @@ STR = {
         "what_this_means": "What this means",
         "fix": "Fix",
         "refs": "Refs",
+        "verified": "✓ verified",
         "footer": ("Every finding above was verified against the authorized "
                    "target only. Reports are backed by a signed, expiring "
                    "authorization record. Scan only what you are authorized "
@@ -47,6 +48,7 @@ STR = {
         "what_this_means": "Cosa significa",
         "fix": "Rimedio",
         "refs": "Riferimenti",
+        "verified": "✓ verificato",
         "footer": ("Ogni risultato è stato verificato solo sull'obiettivo "
                    "autorizzato. I report sono coperti da un'autorizzazione "
                    "firmata con scadenza. Scansiona solo ciò che sei "
@@ -105,7 +107,12 @@ def _card(f: dict, t: dict) -> str:
     meaning = meta_all.get("plain_meaning", "")
     meaning_html = (f'<p class="meaning"><b>{html.escape(t["what_this_means"])}:'
                     f'</b> {html.escape(str(meaning))}</p>') if meaning else ""
-    meta_left = {k: v for k, v in meta_all.items() if k != "plain_meaning"}
+    val = meta_all.get("validated", "")
+    vbadge = (f' <span class="badge" style="background:#2e7d4f" '
+              f'title="confirmed by an independent second observation">'
+              f'{html.escape(t["verified"])}</span>') if val in ("recheck", "source-evidence") else ""
+    meta_left = {k: v for k, v in meta_all.items()
+                 if k not in ("plain_meaning", "validated")}
     meta = (f'<div class="src">meta: '
             f'{html.escape(json.dumps(meta_left)[:160])}</div>') if meta_left else ""
     evidence = ""
@@ -121,7 +128,7 @@ def _card(f: dict, t: dict) -> str:
     return f"""
 <div class="card" style="border-left-color:{color}">
   <div class="head"><h3>{html.escape(f['title'])}</h3>
-  <span class="badge" style="background:{color}">{sev}</span></div>
+  <span class="badge" style="background:{color}">{sev}</span>{vbadge}</div>
   <div class="src">{html.escape(f['source'])} · {html.escape(f['target'])}
    · {html.escape(f.get('category',''))} · {html.escape(f.get('id',''))}</div>
   {evidence}{meta}{meaning_html}
@@ -145,6 +152,11 @@ def render(result: dict, branding: dict | None = None) -> str:
     chips = "".join(_chip(s, counts.get(s, 0)) for s in
                     ("CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"))
     authz = result.get("authorization", {})
+    valnote = ""
+    if result.get("validation"):
+        from ..validation import note as val_note
+        valnote = (f'<div class="muted" style="font-size:13px;margin:-10px 0 4px">'
+                   f'{html.escape(val_note(result["validation"], lang))}</div>')
 
     byline = t["generated_by"].format(name=html.escape(logo))
     if agency:
@@ -185,6 +197,7 @@ def render(result: dict, branding: dict | None = None) -> str:
 <div class="muted">{byline}</div>
 <div class="chips">{chips}</div>
 <div class="summary">{html.escape(result.get('summary',''))}</div>
+{valnote}
 <h2>{html.escape(t['scope'])}</h2>
 <div class="meta">
   <div><b>{html.escape(t['target'])}</b> {html.escape(result.get('host',''))}</div>

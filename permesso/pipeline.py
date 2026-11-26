@@ -78,6 +78,14 @@ def run_scan(
         for f in findings:
             f.metadata["plain_meaning"] = writer.plain_meaning(f, lang=lang)
 
+    if opts.get("validate"):
+        from .validation import validate
+        opts["_spec"] = spec
+        stats = validate(findings, opts)
+        opts.pop("_spec", None)
+    else:
+        stats = None
+
     finished = dt.datetime.now(dt.timezone.utc)
     result = ScanResult(
         host=spec.host, ports=spec.ports,
@@ -87,4 +95,7 @@ def run_scan(
         findings=FindingSet(findings),
         skipped=skipped, errors=errors,
     )
-    return result, result.to_dict()
+    doc = result.to_dict()
+    if stats:
+        doc["validation"] = stats
+    return result, doc

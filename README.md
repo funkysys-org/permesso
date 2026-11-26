@@ -30,6 +30,15 @@ SMBs and web agencies. One command, a report a human can act on.
 5. **Drift** — `permesso diff old.json new.json` reports new / resolved /
    kept findings; exit code 10 when new CRITICAL/HIGH appear (wire it to
    cron or CI for alerting).
+6. **Validation (`--validate`)** — non-destructive: every passive finding is
+   re-confirmed by an independent second observation (or marked transient);
+   tool findings carry their own match evidence. Verified findings show a ✓
+   badge. No payloads are ever sent; active exploitation is out of scope.
+7. **Portal (`permesso portal`)** — static client portal + agency console
+   built from scan history: index of all targets, per-target severity trend,
+   drift, and links to every report. Host the folder anywhere.
+8. **PDF (`permesso pdf report.html`)** — export via wkhtmltopdf or headless
+   Chromium when available; a clear install hint when not.
 
 ## Quickstart
 

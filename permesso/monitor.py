@@ -71,7 +71,8 @@ def run_monitor(spec, key, opts: dict | None = None) -> dict:
     out = opts.get("out")
     report_path = pathlib.Path(out) if out else hdir / f"report-{stamp}.html"
     from .branding import load as load_branding
-    branding = load_branding(opts.get("branding")) if opts.get("branding") else None
+    branding = load_branding(opts.get("branding"))
+    branding.setdefault("language", opts.get("lang", "en"))  # --lang drives labels
     report_path.write_text(render(doc, branding))
 
     drift = None
