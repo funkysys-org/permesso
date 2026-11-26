@@ -29,7 +29,8 @@ metadata:
 1. Confirm the target and authorization (rule 1). Record owner email.
 2. Install (once per machine):
    ```bash
-   pip install permesso   # or: pip install git+<repo-url>
+   pipx install git+https://github.com/funkysys-org/permesso.git
+   permesso doctor   # optional adapters: pipx install ssh-audit; nuclei; testssl.sh
    permesso keygen
    ```
 3. Authorize and scan:

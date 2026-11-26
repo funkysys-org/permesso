@@ -96,6 +96,40 @@ def _cmd_doctor(args) -> int:
     return 0
 
 
+def _cmd_monitor(args) -> int:
+    try:
+        spec = TargetSpec.parse(args.target, args.ports)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    key = authz.load_or_create_key(args.key_path or authz.DEFAULT_KEY_PATH)
+    opts = {
+        "adapters": args.adapters,
+        "auth_dir": args.auth_dir or authz.DEFAULT_AUTH_DIR,
+        "adapter_timeout": args.adapter_timeout,
+        "lynis_report": args.lynis_report,
+        "plain_language": args.plain_language,
+        "lang": args.lang,
+        "branding": args.branding,
+        "history_dir": args.history_dir,
+        "out": args.out,
+    }
+    try:
+        from .monitor import run_monitor
+        r = run_monitor(spec, key, opts)
+    except authz.AuthorizationError as exc:
+        print(f"UNAUTHORIZED: {exc}", file=sys.stderr)
+        return 2
+    print(f"scan: {r['scan_path']}")
+    print(f"report: {r['report_path']}")
+    if r["baseline"]:
+        print("baseline saved — next runs will show the drift.")
+    elif r["drift"]:
+        print(r["drift"]["text"])
+        return 10 if r["drift"]["has_new_high"] else 0
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="permesso",
@@ -151,6 +185,23 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("doctor", help="check installed adapters, show install recipes")
     p.set_defaults(fn=_cmd_doctor)
+
+    p = sub.add_parser("monitor", help="scan + keep history + drift vs previous run "
+                                       "(exit 10 on new CRITICAL/HIGH — cron/CI ready)")
+    p.add_argument("--target", required=True)
+    p.add_argument("--ports", default=None)
+    p.add_argument("--adapters", default="auto")
+    p.add_argument("--key-path", default=None)
+    p.add_argument("--auth-dir", default=None)
+    p.add_argument("--adapter-timeout", type=int, default=600)
+    p.add_argument("--lynis-report", default=None)
+    p.add_argument("--plain-language", action="store_true")
+    p.add_argument("--lang", default="en", choices=("en", "it"))
+    p.add_argument("--branding", default=None)
+    p.add_argument("--history-dir", default=None,
+                   help="default: ~/.permesso/history/<host>/")
+    p.add_argument("--out", default=None, help="HTML report path (default: history dir)")
+    p.set_defaults(fn=_cmd_monitor)
 
     args = parser.parse_args(argv)
     return args.fn(args)

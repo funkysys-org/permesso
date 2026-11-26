@@ -1,0 +1,56 @@
+# Nightly authorized scan with drift alerting (uses `permesso monitor`).
+#
+# One-time setup (repo Settings → Secrets and variables → Actions):
+#   SECSCAN_KEY_B64 : base64 of your signing key
+#                     (permesso keygen; then: base64 -w0 ~/.permesso/secret.key)
+#   SCAN_TARGET     : host you are authorized to scan
+#   SCAN_OWNER      : authorizer email
+#
+# The job FAILS when new CRITICAL/HIGH findings appear (monitor exit 10),
+# which triggers GitHub's failure notifications.
+name: permesso-nightly
+on:
+  schedule:
+    - cron: "17 3 * * *"   # nightly, off the hour
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install permesso
+        run: pip install git+https://github.com/funkysys-org/permesso.git
+
+      - name: Restore signing key
+        run: |
+          mkdir -p ~/.permesso
+          echo "${{ secrets.SECSCAN_KEY_B64 }}" | base64 -d > ~/.permesso/secret.key
+          chmod 600 ~/.permesso/secret.key
+
+      - name: Restore scan history
+        uses: actions/cache@v4
+        with:
+          path: history
+          key: permesso-history-${{ secrets.SCAN_TARGET }}
+
+      - name: Authorize + monitor (scan, store, drift)
+        run: |
+          permesso authorize --target "${{ secrets.SCAN_TARGET }}" \
+            --owner "${{ secrets.SCAN_OWNER }}" --days 7
+          permesso monitor --target "${{ secrets.SCAN_TARGET }}" \
+            --history-dir history --plain-language --lang en \
+            --out history/latest-report.html
+
+      - name: Upload latest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: permesso-report
+          path: history/latest-report.html

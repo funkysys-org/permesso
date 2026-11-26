@@ -75,8 +75,88 @@ _LANGS = {"en": _EN, "it": _MEANINGS}
 _HIGH_TONE = " Treat it as a priority: this is the kind of issue automated attacks find first."
 
 
+_LANGS = {"en": _EN, "it": _MEANINGS}
+
+# per-finding specifics (matched on title, lowercase) — beat the generic text
+_SPECIFIC = {
+    "en": [
+        ("strict-transport-security",
+         "Browsers can be forced onto plain HTTP (a downgrade attack) and what "
+         "visitors send or see can be read or altered in transit."),
+        ("content-security-policy",
+         "Any script injected into the site runs with the visitor's full "
+         "session — the classic XSS route, with no browser-side brake."),
+        ("cookie without httponly",
+         "A script on the page (or any XSS bug) can read that cookie and take "
+         "over the visitor's session without ever seeing a password."),
+        ("cookie without secure",
+         "That cookie can travel over unencrypted HTTP and be picked up by "
+         "anyone on the same network."),
+        ("x-content-type-options",
+         "Browsers may guess a file's type and execute an uploaded file as "
+         "code instead of showing it."),
+        ("x-frame-options",
+         "Malicious pages can embed the site invisibly and trick visitors into "
+         "clicks they never intended (clickjacking)."),
+        ("server banner discloses",
+         "The exact software version is public — attackers match known CVEs "
+         "against it automatically, no guesswork needed."),
+        ("has expired",
+         "Browsers refuse the connection outright: the site is effectively "
+         "down for every visitor, and data can be intercepted meanwhile."),
+        ("expires soon",
+         "When the certificate lapses the site goes dark for everyone until "
+         "it is renewed — plan the renewal now."),
+        ("self-signed",
+         "Visitors get a security warning and nothing verifies the server's "
+         "identity: anyone can impersonate it."),
+    ],
+    "it": [
+        ("strict-transport-security",
+         "Un malintenzionato può forzare il browser del visitatore su HTTP in "
+         "chiaro (downgrade) e leggere o alterare quello che invia o vede."),
+        ("content-security-policy",
+         "Qualsiasi script iniettato nel sito gira con la sessione completa "
+         "del visitatore: la classica via dell'XSS, senza freni."),
+        ("cookie without httponly",
+         "Uno script della pagina (o una bug XSS) può leggere quel cookie e "
+         "prendere il posto del visitatore, senza mai vedere una password."),
+        ("cookie without secure",
+         "Quel cookie può viaggiare in HTTP in chiaro e essere intercettato "
+         "da chi è sulla stessa rete."),
+        ("x-content-type-options",
+         "Il browser può indovinare il tipo di file ed eseguire un file "
+         "caricato come codice invece di mostrarlo."),
+        ("x-frame-options",
+         "Pagine ostili possono incorporare il sito in modo invisibile e "
+         "trickare i visitatori con click mai voluti (clickjacking)."),
+        ("server banner discloses",
+         "La versione esatta del software è pubblica: gli attaccanti la "
+         "abbinano automaticamente ai CVE noti, senza dover cercare."),
+        ("has expired",
+         "I browser rifiutano la connessione: il sito è di fatto giù per "
+         "tutti, e nel frattempo i dati possono essere intercettati."),
+        ("expires soon",
+         "Quando il certificato scade il sito si spegne per tutti finché non "
+         "viene rinnovato: pianifica il rinnovo adesso."),
+        ("self-signed",
+         "I visitatori vedono un avviso di sicurezza e nessuno verifica "
+         "l'identità del server: chiunque può impersonarlo."),
+    ],
+}
+
+
+def _specific(finding: Finding, lang: str) -> str | None:
+    title = finding.title.lower()
+    for pattern, text in _SPECIFIC.get(lang, _SPECIFIC["en"]):
+        if pattern in title:
+            return text
+    return None
+
+
 def plain_meaning(finding: Finding, lang: str = "en") -> str:
-    base = _LANGS.get(lang, _EN).get(finding.category, _EN["info"])
+    base = _specific(finding, lang) or _LANGS.get(lang, _EN).get(
+        finding.category, _EN["info"])
     if finding.severity >= Severity.HIGH:
         return base + _HIGH_TONE
     return base
