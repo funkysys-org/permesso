@@ -1,6 +1,6 @@
 import unittest
 
-from secscan.findings import Finding, FindingSet, Severity
+from permesso.findings import Finding, FindingSet, Severity
 
 
 def f(title, sev, source="passive", target="h"):

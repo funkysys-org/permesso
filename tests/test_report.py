@@ -1,6 +1,6 @@
 import unittest
 
-from secscan.report.html import render
+from permesso.report.html import render
 
 DOC = {
     "version": "0.1.0",

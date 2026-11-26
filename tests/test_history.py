@@ -1,6 +1,6 @@
 import unittest
 
-from secscan.history import diff, render_text
+from permesso.history import diff, render_text
 
 
 def scan(findings, started="2026-11-26T01:00:00+00:00", host="h.example"):

@@ -14,8 +14,8 @@ import os
 import pathlib
 import secrets
 
-DEFAULT_KEY_PATH = os.path.expanduser("~/.secscan/secret.key")
-DEFAULT_AUTH_DIR = os.path.expanduser("~/.secscan/authorizations")
+DEFAULT_KEY_PATH = os.path.expanduser("~/.permesso/secret.key")
+DEFAULT_AUTH_DIR = os.path.expanduser("~/.permesso/authorizations")
 
 
 class AuthorizationError(Exception):
@@ -55,7 +55,7 @@ def authorize(
         raise AuthorizationError("domain scope needs a domain, not an IP")
     now = dt.datetime.now(dt.timezone.utc)
     payload = {
-        "product": "secscan",
+        "product": "permesso",
         "target": target.lower().strip(),
         "scope": scope,
         "owner": owner,
@@ -95,7 +95,7 @@ def verify(target: str, key: bytes, auth_dir: str = DEFAULT_AUTH_DIR) -> dict:
         if not path.exists():
             raise AuthorizationError(
                 f"No authorization file for '{target}'. Run: "
-                f"secscan authorize --target {target} --owner you@example.com"
+                f"permesso authorize --target {target} --owner you@example.com"
             )
     doc = json.loads(path.read_text())
     payload, signature = doc.get("authorization", {}), doc.get("signature", "")

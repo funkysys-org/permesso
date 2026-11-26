@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from secscan import authorization as authz
+from permesso import authorization as authz
 
 
 class AuthorizationTest(unittest.TestCase):

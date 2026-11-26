@@ -5,7 +5,7 @@ import json
 
 DEFAULTS: dict = {
     "agency_name": "",        # e.g. "Agencia X" — shown as report author
-    "logo_text": "secscan",   # text logo in the header
+    "logo_text": "permesso",   # text logo in the header
     "accent_color": "#23408e",
     "footer": "",             # custom footer line, replaces default when set
     "language": "en",         # "en" | "it"

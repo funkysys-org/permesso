@@ -36,7 +36,7 @@ def diff(old: dict, new: dict) -> dict:
 
 def render_text(d: dict) -> str:
     lines = [
-        f"secscan drift: {d['old_host']} {d['old_started']} -> {d['new_started']}",
+        f"permesso drift: {d['old_host']} {d['old_started']} -> {d['new_started']}",
         f"findings: {len(d['added'])} new, {len(d['resolved'])} resolved, "
         f"{d['kept']} unchanged",
     ]

@@ -1,7 +1,7 @@
 import unittest
 
-from secscan.branding import load as load_branding
-from secscan.report.html import render
+from permesso.branding import load as load_branding
+from permesso.report.html import render
 
 DOC = {
     "version": "0.1.0",
@@ -35,7 +35,7 @@ class BrandingTest(unittest.TestCase):
     def test_load_merges_over_defaults(self):
         b = load_branding(None)
         self.assertEqual(b["language"], "en")
-        self.assertEqual(b["logo_text"], "secscan")
+        self.assertEqual(b["logo_text"], "permesso")
         b2 = load_branding("/nonexistent-does-not-exist") if False else \
             load_branding(None)
         self.assertEqual(b2["accent_color"], "#23408e")

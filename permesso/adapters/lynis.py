@@ -1,6 +1,6 @@
 """Lynis adapter (GPL-3.0 — invoked as an EXTERNAL process / report parser).
 
-Runs on the target server itself; from a remote secscan installation you
+Runs on the target server itself; from a remote permesso installation you
 provide a `lynis-report.dat` copied from the server.
 """
 from __future__ import annotations

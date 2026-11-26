@@ -25,7 +25,7 @@ class ScanResult:
 
     def to_dict(self) -> dict:
         return {
-            "product": "secscan",
+            "product": "permesso",
             "version": "0.1.0",
             "host": self.host,
             "ports": self.ports,

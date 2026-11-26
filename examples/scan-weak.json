@@ -1,19 +1,19 @@
 {
-  "product": "secscan",
+  "product": "permesso",
   "version": "0.1.0",
   "host": "127.0.0.1",
   "ports": [
     8099
   ],
-  "started_at": "2026-11-26T01:39:02+00:00",
-  "finished_at": "2026-11-26T01:39:02+00:00",
+  "started_at": "2026-11-26T09:25:14+00:00",
+  "finished_at": "2026-11-26T09:25:14+00:00",
   "authorization": {
-    "product": "secscan",
+    "product": "permesso",
     "target": "127.0.0.1",
     "scope": "host",
     "owner": "demo@example.com",
-    "issued_at": "2026-11-26T01:23:20+00:00",
-    "expires_at": "2026-12-26T01:23:20+00:00"
+    "issued_at": "2026-11-26T09:25:02+00:00",
+    "expires_at": "2026-12-26T09:25:02+00:00"
   },
   "summary": "Scan of 127.0.0.1 found 0 critical, 0 high, 2 medium and 3 low severity findings \u2014 no critical or high-severity issues, but hardening is recommended.",
   "counts": {

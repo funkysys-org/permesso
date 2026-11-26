@@ -1,4 +1,4 @@
-"""A deliberately weak local demo server for testing secscan.
+"""A deliberately weak local demo server for testing permesso.
 
 Deliberate weaknesses: no security headers, version-disclosing Server banner,
 cookie without HttpOnly/Secure. HTTP only (no TLS) on 127.0.0.1 by default.

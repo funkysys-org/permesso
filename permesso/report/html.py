@@ -137,7 +137,7 @@ def render(result: dict, branding: dict | None = None) -> str:
         raise ValueError(f"unknown report language: {lang!r}")
     t = STR[lang]
     agency = branding.get("agency_name", "")
-    logo = branding.get("logo_text", "secscan")
+    logo = branding.get("logo_text", "permesso")
     accent = branding.get("accent_color", "#23408e")
     css = _CSS.replace("--accent:#23408e", f"--accent:{accent}")
 

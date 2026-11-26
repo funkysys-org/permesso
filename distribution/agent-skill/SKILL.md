@@ -3,9 +3,9 @@
 # Claude Code skills.
 
 ---
-name: secscan
+name: permesso
 description: >-
-  Run authorized security scans of websites and servers with secscan and
+  Run authorized security scans of websites and servers with permesso and
   produce client-ready hardening reports. Use when the user asks to check a
   site's or server's security, run a vulnerability scan, or produce a security
   report — ONLY for targets the user is authorized to test.
@@ -14,7 +14,7 @@ metadata:
   hub: draft
 ---
 
-# secscan — authorized scan + hardening report
+# permesso — authorized scan + hardening report
 
 ## Hard rules (the gate is the product)
 
@@ -29,13 +29,13 @@ metadata:
 1. Confirm the target and authorization (rule 1). Record owner email.
 2. Install (once per machine):
    ```bash
-   pip install secscan   # or: pip install git+<repo-url>
-   secscan keygen
+   pip install permesso   # or: pip install git+<repo-url>
+   permesso keygen
    ```
 3. Authorize and scan:
    ```bash
-   secscan authorize --target <host> --owner <user-email> [--scope domain]
-   secscan scan --target <host> --plain-language --out report.html --json scan.json
+   permesso authorize --target <host> --owner <user-email> [--scope domain]
+   permesso scan --target <host> --plain-language --out report.html --json scan.json
    ```
    Optional depth on servers you control: `ssh-audit` (pip), testssl.sh, lynis.
    Missing tools are listed as "skipped" in the report — report them, don't
@@ -43,7 +43,7 @@ metadata:
 4. Read the JSON, then do what the offline writer cannot: rewrite
    `plain_meaning`/`remediation` for the customer's actual stack (nginx?
    WordPress? managed host?) with specific, correct fix steps.
-5. Deliver `report.html`; offer `secscan diff` against a previous scan JSON
+5. Deliver `report.html`; offer `permesso diff` against a previous scan JSON
    for continuous monitoring.
 
 ## Report delivery

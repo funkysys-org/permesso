@@ -1,7 +1,7 @@
 import unittest
 
-from secscan.findings import Finding, Severity
-from secscan.writer import plain_meaning
+from permesso.findings import Finding, Severity
+from permesso.writer import plain_meaning
 
 CATS = ["headers", "tls", "vuln", "ssh", "hardening", "info", "unknown-cat"]
 

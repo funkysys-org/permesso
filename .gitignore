@@ -5,6 +5,6 @@ build/
 dist/
 .venv/
 authorizations/*.auth.json
-.secscan/
+.permesso/
 examples/*.log
 examples/*.html

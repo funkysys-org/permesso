@@ -1,4 +1,4 @@
-"""secscan command line interface."""
+"""permesso command line interface."""
 from __future__ import annotations
 
 import argparse
@@ -92,11 +92,11 @@ def _cmd_diff(args) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="secscan",
+        prog="permesso",
         description="Authorized scan + hardening reports for websites and servers",
     )
     parser.add_argument("--version", action="version",
-                        version=f"secscan {__version__}")
+                        version=f"permesso {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p = sub.add_parser("keygen", help="create the local signing key")

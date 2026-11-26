@@ -15,7 +15,7 @@ from http.client import HTTPResponse  # noqa: F401 (typing clarity)
 from ..findings import Finding, FindingSet, Severity
 from .base import Adapter
 
-UA = "secscan/0.1 (+authorized scan)"
+UA = "permesso/0.1 (+authorized scan)"
 
 HEADER_CHECKS = [  # (header, severity, remediation hint)
     ("strict-transport-security", Severity.MEDIUM,

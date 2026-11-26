@@ -1,9 +1,9 @@
-# secscan (working name)
+# permesso (working name)
 
 Authorized security scan + hardening reports for websites and servers, aimed at
 SMBs and web agencies. One command, a report a human can act on.
 
-> **Non-negotiable design rule:** secscan refuses to scan a target without a
+> **Non-negotiable design rule:** permesso refuses to scan a target without a
 > valid, signed authorization file for that exact target. Trust is the product.
 
 ## What it does today (v0)
@@ -23,11 +23,11 @@ SMBs and web agencies. One command, a report a human can act on.
    - Missing tools are reported as "skipped" in the report — never silently.
 3. **Triage** — dedupe, severity ordering, rule-based remediation text, plus
    customer-friendly plain language (`--plain-language --lang en|it`). An LLM
-   layer plugs into the `secscan.triage.enhance(llm=...)` hook.
+   layer plugs into the `permesso.triage.enhance(llm=...)` hook.
 4. **Report** — self-contained HTML (inline CSS, print-friendly) + machine
    readable JSON; brandable via `branding.json` (agency name, text logo,
    accent color, footer) and localized EN/IT.
-5. **Drift** — `secscan diff old.json new.json` reports new / resolved /
+5. **Drift** — `permesso diff old.json new.json` reports new / resolved /
    kept findings; exit code 10 when new CRITICAL/HIGH appear (wire it to
    cron or CI for alerting).
 
@@ -37,30 +37,30 @@ SMBs and web agencies. One command, a report a human can act on.
 pip install -e .
 
 # one-time: create the signing key
-secscan keygen
+permesso keygen
 
 # authorize a target you own (30 days, this host only)
-secscan authorize --target www.example.com --owner you@example.com --days 30
+permesso authorize --target www.example.com --owner you@example.com --days 30
 
 # scan (auto uses every adapter found on PATH; passive always runs)
-secscan scan --target www.example.com --out report.html
+permesso scan --target www.example.com --out report.html
 
 # regenerate a report from a saved scan
-secscan report --json scan-*.json --out again.html
+permesso report --json scan-*.json --out again.html
 ```
 
 Local demo (no external target):
 
 ```bash
 python3 examples/local_target.py --port 8099 &   # deliberately weak demo server
-secscan keygen
-secscan authorize --target 127.0.0.1 --owner demo@example.com
-secscan scan --target 127.0.0.1 --ports 8099 --out demo-report.html
+permesso keygen
+permesso authorize --target 127.0.0.1 --owner demo@example.com
+permesso scan --target 127.0.0.1 --ports 8099 --out demo-report.html
 ```
 
 ## License policy (verified 2026-11-26 via GitHub API)
 
-| Tool | License | How secscan uses it |
+| Tool | License | How permesso uses it |
 |---|---|---|
 | nuclei, httpx, subfinder, naabu, ssh-audit | MIT | may embed |
 | docker-bench-security | Apache-2.0 | may embed |
@@ -68,7 +68,7 @@ secscan scan --target 127.0.0.1 --ports 8099 --out demo-report.html
 | lynis | GPL-3.0 | **external process only** |
 
 GPL tools are orchestrated as subprocesses, never linked or copied into
-secscan's own code, keeping secscan MIT-clean.
+permesso's own code, keeping permesso MIT-clean.
 
 ## Roadmap
 
