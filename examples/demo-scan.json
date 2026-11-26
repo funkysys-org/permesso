@@ -1,0 +1,127 @@
+{
+  "product": "secscan",
+  "version": "0.1.0",
+  "host": "127.0.0.1",
+  "ports": [
+    8099
+  ],
+  "started_at": "2026-11-26T01:23:25+00:00",
+  "finished_at": "2026-11-26T01:23:25+00:00",
+  "authorization": {
+    "product": "secscan",
+    "target": "127.0.0.1",
+    "scope": "host",
+    "owner": "demo@example.com",
+    "issued_at": "2026-11-26T01:23:20+00:00",
+    "expires_at": "2026-12-26T01:23:20+00:00"
+  },
+  "summary": "Scan of 127.0.0.1 found 0 critical, 0 high, 2 medium and 3 low severity findings \u2014 no critical or high-severity issues, but hardening is recommended.",
+  "counts": {
+    "INFO": 2,
+    "LOW": 3,
+    "MEDIUM": 2,
+    "HIGH": 0,
+    "CRITICAL": 0
+  },
+  "skipped": [
+    {
+      "adapter": "testssl",
+      "reason": "testssl.sh not found on PATH. Install: https://testssl.sh/ (git clone --depth 1 https://github.com/drwetter/testssl.sh && ./testssl.sh --help)"
+    },
+    {
+      "adapter": "ssh_audit",
+      "reason": "ssh-audit not found on PATH. Install: pip install ssh-audit or https://github.com/jtesta/ssh-audit/releases"
+    },
+    {
+      "adapter": "lynis",
+      "reason": "lynis not found on PATH and no lynis-report.dat present. Install: https://cisofy.com/download/lynis/ \u2014 then run 'lynis audit system --quick' on the server."
+    }
+  ],
+  "errors": [],
+  "findings": [
+    {
+      "title": "Cookie without HttpOnly flag",
+      "severity": "MEDIUM",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "sid=demo123; Path=/",
+      "remediation": "Set HttpOnly on session cookies.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-88a1e3a67f"
+    },
+    {
+      "title": "Missing security header: content-security-policy",
+      "severity": "MEDIUM",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Content-Security-Policy to mitigate XSS.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-e34d7128c4"
+    },
+    {
+      "title": "Missing security header: referrer-policy",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Referrer-Policy header (e.g. strict-origin-when-cross-origin).",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-db1443bd59"
+    },
+    {
+      "title": "Missing security header: x-content-type-options",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add X-Content-Type-Options: nosniff.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-0aa1a8d0f1"
+    },
+    {
+      "title": "Missing security header: x-frame-options",
+      "severity": "LOW",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add X-Frame-Options: DENY/SAMEORIGIN or a CSP frame-ancestors directive.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-7d2960b768"
+    },
+    {
+      "title": "Missing security header: permissions-policy",
+      "severity": "INFO",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "headers",
+      "evidence": "",
+      "remediation": "Add a Permissions-Policy to restrict browser features.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-5a055447e1"
+    },
+    {
+      "title": "Server banner discloses version",
+      "severity": "INFO",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "info",
+      "evidence": "DemoNas/1.4.2 Python/3.13.16",
+      "remediation": "Suppress version tokens in the Server header.",
+      "references": [],
+      "metadata": {},
+      "id": "SEC-b5a62c6877"
+    }
+  ]
+}
