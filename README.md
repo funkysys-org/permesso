@@ -36,8 +36,8 @@ SMBs and web agencies. One command, a report a human can act on.
 Requires Python ≥ 3.10 — nothing else.
 
 ```bash
-# install straight from this repo
-pip install git+https://github.com/funkysys-org/permesso.git
+# install (from PyPI)
+pip install permesso        # or: pipx install permesso (recommended for the CLI)
 
 # one-time: create the signing key
 permesso keygen
