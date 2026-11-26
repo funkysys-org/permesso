@@ -1,0 +1,44 @@
+{
+  "product": "secscan",
+  "version": "0.1.0",
+  "host": "127.0.0.1",
+  "ports": [
+    8099
+  ],
+  "started_at": "2026-11-26T01:39:50+00:00",
+  "finished_at": "2026-11-26T01:39:50+00:00",
+  "authorization": {
+    "product": "secscan",
+    "target": "127.0.0.1",
+    "scope": "host",
+    "owner": "demo@example.com",
+    "issued_at": "2026-11-26T01:23:20+00:00",
+    "expires_at": "2026-12-26T01:23:20+00:00"
+  },
+  "summary": "Scan of 127.0.0.1 found 0 critical, 0 high, 0 medium and 0 low severity findings \u2014 no issues detected by the enabled checks.",
+  "counts": {
+    "INFO": 1,
+    "LOW": 0,
+    "MEDIUM": 0,
+    "HIGH": 0,
+    "CRITICAL": 0
+  },
+  "skipped": [],
+  "errors": [],
+  "findings": [
+    {
+      "title": "Server banner discloses version",
+      "severity": "INFO",
+      "source": "passive",
+      "target": "http://127.0.0.1:8099",
+      "category": "info",
+      "evidence": "DemoNas Python/3.13.16",
+      "remediation": "Suppress version tokens in the Server header.",
+      "references": [],
+      "metadata": {
+        "plain_meaning": "Osservazione a basso impatto: utile per la pulizia, non urgente."
+      },
+      "id": "SEC-b5a62c6877"
+    }
+  ]
+}

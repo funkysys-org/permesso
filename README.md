@@ -21,10 +21,15 @@ SMBs and web agencies. One command, a report a human can act on.
    - `lynis` (GPL-3.0, invoked as an external process): Linux hardening index
      and suggestions, parsed from a lynis report file.
    - Missing tools are reported as "skipped" in the report — never silently.
-3. **Triage** — dedupe, severity ordering, rule-based remediation text. An LLM
-   triage layer is a pluggable hook (`secscan.triage.enhance`).
+3. **Triage** — dedupe, severity ordering, rule-based remediation text, plus
+   customer-friendly plain language (`--plain-language --lang en|it`). An LLM
+   layer plugs into the `secscan.triage.enhance(llm=...)` hook.
 4. **Report** — self-contained HTML (inline CSS, print-friendly) + machine
-   readable JSON.
+   readable JSON; brandable via `branding.json` (agency name, text logo,
+   accent color, footer) and localized EN/IT.
+5. **Drift** — `secscan diff old.json new.json` reports new / resolved /
+   kept findings; exit code 10 when new CRITICAL/HIGH appear (wire it to
+   cron or CI for alerting).
 
 ## Quickstart
 
@@ -67,9 +72,13 @@ secscan's own code, keeping secscan MIT-clean.
 
 ## Roadmap
 
-- **v1** — scheduled scans, drift diff between runs, client portal
-- **v2** — agency console (multi-client), white-label branding, validated
-  PoC exploits (pentest-light), Italian-language reports
+- ✅ **v1 core (built, tested)** — plain-language triage, drift diff,
+  branding + EN/IT localized reports
+- **Drafts awaiting the owner's go (NOT published)** —
+  `distribution/github-action/` (nightly scans + drift alerting) and
+  `distribution/agent-skill/` (the agent-hub sales channel)
+- **Next** — scheduled/continuous runner, client portal, agency console,
+  white-label PDF export, validated PoC exploits (pentest-light)
 
 ## Legal
 
