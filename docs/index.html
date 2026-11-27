@@ -47,6 +47,10 @@ box-shadow:0 18px 44px rgba(0,0,0,.35);overflow:hidden}
 .term .bar i:first-child{background:var(--amber)}
 .term pre{padding:18px;font:12px/1.75 ui-monospace,Menlo,Consolas,monospace;color:#c9d4e2;overflow-x:auto}
 .term .c{color:#5f7488}.term .p{color:#8fd0a0}.term .k{color:var(--amber)}
+code{background:#f1f3f6;border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+font:12px ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.agents .card p{margin-top:6px}
+.agents code{display:inline-block;margin-top:4px}
 h2{font-size:26px;letter-spacing:-.3px;margin-bottom:6px}
 .kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--amber);text-transform:uppercase}
 section{padding:64px 0}
@@ -95,6 +99,7 @@ h1{font-size:32px}}
     <a href="#perche" data-i="nav_why">Perché</a>
     <a href="#come" data-i="nav_how">Come funziona</a>
     <a href="#esempio" data-i="nav_example">Report d'esempio</a>
+    <a href="#agenti" data-i="nav_agents">Agenti</a>
     <a href="https://github.com/funkysys-org/permesso" data-i="nav_github">GitHub ↗</a>
     <span class="langs">
       <button id="btn-it" class="on" onclick="setLang('it')">IT</button>
@@ -164,6 +169,19 @@ h1{font-size:32px}}
     <div class="card"><span class="ic">🌙</span><h3 data-i="f4_t">Modalità continua</h3><p data-i="f4_d">diff tra scansioni: nuovi, risolti, invariati. Exit code per allarmi automatici quando compare un problema grave.</p></div>
     <div class="card"><span class="ic">🏷️</span><h3 data-i="f5_t">Report brandizzabili</h3><p data-i="f5_d">Nome, logo e colori della tua agenzia nel PDF che consegni al cliente. Tu resti la voce, noi il motore.</p></div>
     <div class="card"><span class="ic">🤖</span><h3 data-i="f6_t">Agent-native</h3><p data-i="f6_d">CLI, GitHub Action e uno skill per gli hub di agenti: i tuoi strumenti AI sanno già usarlo.</p></div>
+    <div class="card"><span class="ic">✅</span><h3 data-i="f7_t">Validazione non distruttiva</h3><p data-i="f7_d">Ogni rilievo passivo è riverificato con una seconda osservazione indipendente; i transitori vengono evidenziati, mai spacciati per reali.</p></div>
+    <div class="card"><span class="ic">📂</span><h3 data-i="f8_t">Portale clienti + PDF</h3><p data-i="f8_d">Console agenzia e pagine cliente generate dallo storico delle scansioni; report esportabili in PDF con un comando.</p></div>
+  </div>
+</div></section>
+
+<section id="agenti" class="alt agents"><div class="wrap">
+  <div class="kicker" data-i="ag_k">Agent-native, sul serio</div>
+  <h2 data-i="ag_h">Un solo file. Quattro agenti.</h2>
+  <p class="lead" data-i="ag_l">La skill che guida permesso è in formato aperto (SKILL.md): la stessa vale per Claude Code, OpenCode, Codex/Cursor e OpenClaw/Hermes — con le regole di autorizzazione incorporate, ovunque. Niente token, niente setup.</p>
+  <div class="grid3">
+    <div class="card"><span class="ic">🤖</span><h3>Claude Code</h3><p><code>npx skills add funkysys-org/permesso --skill permesso -a claude-code</code></p></div>
+    <div class="card"><span class="ic">🧩</span><h3>OpenCode · Codex · Cursor</h3><p><code>npx skills add funkysys-org/permesso --skill permesso -a opencode</code></p></div>
+    <div class="card"><span class="ic">🦞</span><h3>OpenClaw · Hermes</h3><p><code>openclaw skills install @funkysys-org/permesso</code><br><a href="https://clawhub.ai/skills/permesso">→ su ClawHub</a></p></div>
   </div>
 </div></section>
 
@@ -188,8 +206,8 @@ h1{font-size:32px}}
 
 <script>
 const I18N = {
- it: {"nav_why":"Perché","nav_how":"Come funziona","nav_example":"Report d'esempio","nav_github":"GitHub ↗",
-  "badge":"MVP open-source · licenza MIT · zero dipendenze",
+ it: {"nav_why":"Perché","nav_how":"Come funziona","nav_example":"Report d'esempio","nav_agents":"Agenti","nav_github":"GitHub ↗",
+  "badge":"Open-source · MIT · zero dipendenze · su PyPI e ClawHub",
   "h1":"Nessuna scansione<br>senza <em>permesso</em>.",
   "sub":"Scansioni di sicurezza autorizzate per siti web e server, che diventano report chiari che chiunque sa leggere e sistemare. Pensato per PMI e agenzie web.",
   "cta_report":"Guarda un report vero","cta_github":"Su GitHub ↗",
@@ -211,14 +229,18 @@ const I18N = {
   "f4_t":"Modalità continua","f4_d":"diff tra scansioni: nuovi, risolti, invariati. Exit code per allarmi automatici quando compare un problema grave.",
   "f5_t":"Report brandizzabili","f5_d":"Nome, logo e colori della tua agenzia nel PDF che consegni al cliente. Tu resti la voce, noi il motore.",
   "f6_t":"Agent-native","f6_d":"CLI, GitHub Action e uno skill per gli hub di agenti: i tuoi strumenti AI sanno già usarlo.",
+  "f7_t":"Validazione non distruttiva","f7_d":"Ogni rilievo passivo è riverificato con una seconda osservazione indipendente; i transitori vengono evidenziati, mai spacciati per reali.",
+  "f8_t":"Portale clienti + PDF","f8_d":"Console agenzia e pagine cliente generate dallo storico delle scansioni; report esportabili in PDF con un comando.",
+  "ag_k":"Agent-native, sul serio","ag_h":"Un solo file. Quattro agenti.",
+  "ag_l":"La skill che guida permesso è in formato aperto (SKILL.md): la stessa vale per Claude Code, OpenCode, Codex/Cursor e OpenClaw/Hermes — con le regole di autorizzazione incorporate, ovunque. Niente token, niente setup.",
   "principle":"«Il permesso è il prodotto.»",
   "principle_s":"Il gate di autorizzazione non si disattiva: ogni report è coperto da una firma, con perimetro e scadenza. La fiducia non è una feature — è il requisito.",
   "ex_k":"Esempio reale","ex_h":"Un report, prima che tu scarichi nulla.",
   "ex_d":"Generato su un server di demo volutamente debole: 7 rilievi, spiegati in italiano, con i rimedi. Formato identico a quello che riceverai.",
   "ex_cta":"Apri il report d'esempio →","f_repo":"codice sorgente",
   "f_note":"Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu."},
- en: {"nav_why":"Why","nav_how":"How it works","nav_example":"Sample report","nav_github":"GitHub ↗",
-  "badge":"Open-source MVP · MIT licensed · zero dependencies",
+ en: {"nav_why":"Why","nav_how":"How it works","nav_example":"Sample report","nav_agents":"Agents","nav_github":"GitHub ↗",
+  "badge":"Open-source · MIT · zero dependencies · on PyPI & ClawHub",
   "h1":"No scan<br>without <em>permission</em>.",
   "sub":"Authorized security scans for websites and servers, turned into clear reports anyone can read and act on. Built for SMBs and web agencies.",
   "cta_report":"See a real report","cta_github":"On GitHub ↗",
@@ -240,6 +262,10 @@ const I18N = {
   "f4_t":"Continuous mode","f4_d":"diff between scans: new, resolved, unchanged. Exit codes for automatic alerts when something serious appears.",
   "f5_t":"Brandable reports","f5_d":"Your agency's name, logo and colors on the PDF you hand the client. You stay the voice, we stay the engine.",
   "f6_t":"Agent-native","f6_d":"CLI, GitHub Action and a skill for agent hubs: your AI tools already know how to use it.",
+  "f7_t":"Non-destructive validation","f7_d":"Every passive finding is re-confirmed by an independent second observation; transients are flagged, never passed off as real.",
+  "f8_t":"Client portal + PDF","f8_d":"Agency console and client pages generated from scan history; reports exported to PDF with one command.",
+  "ag_k":"Agent-native, for real","ag_h":"One file. Four agents.",
+  "ag_l":"The skill that drives permesso is in the open format (SKILL.md): the same one works on Claude Code, OpenCode, Codex/Cursor and OpenClaw/Hermes — with the authorization rules baked in, everywhere. No tokens, no setup.",
   "principle":"\u201cPermission is the product.\u201d",
   "principle_s":"The authorization gate cannot be switched off: every report is backed by a signature, with scope and expiry. Trust isn't a feature — it's the requirement.",
   "ex_k":"A real example","ex_h":"See a report before you download anything.",
