@@ -55,10 +55,17 @@ permesso keygen
 permesso authorize --target www.example.com --owner you@example.com --days 30
 
 # scan (auto uses every adapter found on PATH; passive always runs)
-permesso scan --target www.example.com --out report.html
+# --validate: every passive finding re-checked with an independent second
+# observation (non-destructive); --plain-language: customer-facing text
+permesso scan --target www.example.com --out report.html \
+  --validate --plain-language --lang it
 
 # track what changed between two scans (exit 10 = new CRITICAL/HIGH)
 permesso diff scan-old.json scan-new.json
+
+# client portal + agency console from scan history; PDF export
+permesso portal
+permesso pdf report.html
 ```
 
 Optional deeper checks — `permesso scan` always runs its built-in passive
@@ -89,6 +96,28 @@ git clone https://github.com/funkysys-org/permesso.git
 cd permesso && pip install -e . && python3 -m unittest discover -s tests
 ```
 
+## Use it with AI agents
+
+The skill that drives permesso ships in the open `SKILL.md` format —
+[skills/permesso/SKILL.md](skills/permesso/SKILL.md) is the source of truth,
+with the authorization rules baked in. The same file works across agents:
+
+```bash
+# Claude Code (project: .claude/skills/ — add -g for ~/.claude/skills/)
+npx skills add funkysys-org/permesso --skill permesso -a claude-code
+
+# OpenCode / Codex / Cursor (writes .agents/skills/, which they all read)
+npx skills add funkysys-org/permesso --skill permesso -a opencode
+
+# OpenClaw / Hermes (ClawHub registry — moderation verdict: clean)
+openclaw skills install @funkysys-org/permesso
+# page: https://clawhub.ai/skills/permesso
+```
+
+Note: Claude Code does not read the shared `.agents/skills/` folder — for it,
+the `.claude/skills/` copy is required (the `-a claude-code` install puts it
+there).
+
 Local demo (no external target):
 
 ```bash
@@ -112,13 +141,20 @@ permesso's own code, keeping permesso MIT-clean.
 
 ## Roadmap
 
-- ✅ **v1 core (built, tested)** — plain-language triage, drift diff,
-  branding + EN/IT localized reports
-- **Drafts awaiting the owner's go (NOT published)** —
-  `distribution/github-action/` (nightly scans + drift alerting) and
-  `distribution/agent-skill/` (the agent-hub sales channel)
-- **Next** — scheduled/continuous runner, client portal, agency console,
-  white-label PDF export, validated PoC exploits (pentest-light)
+- ✅ **v0.3.0 (shipped, on PyPI)** — authorization gate, passive + nuclei /
+  testssl / ssh-audit / lynis adapters, plain-language triage (EN/IT),
+  drift diff, `permesso monitor` (continuous mode), brandable reports,
+  `permesso doctor`, non-destructive `--validate`, client portal +
+  agency console, PDF export
+- ✅ **Distribution live** — PyPI (Trusted Publishing, tag `v*` = release),
+  GitHub Pages site, ClawHub skill (multi-agent: OpenClaw/Hermes,
+  Claude Code, OpenCode, Codex/Cursor)
+- **Template** — `distribution/github-action/permesso-nightly.yml`: copy to
+  `.github/workflows/` after setting the 3 secrets to run nightly scans
+  with drift alerting
+- **Not built (deliberate)** — active exploit PoC: non-destructive
+  validation ships instead; weaponized exploitation is a separate product
+  decision with legal exposure, and it has not been taken
 
 ## Legal
 
