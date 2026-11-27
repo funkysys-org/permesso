@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>permesso — FAQ</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta name="description" content="Domande frequenti su permesso: autorizzazione, privacy, WordPress senza WPScan, monitoraggio in cron, branding, agenti AI e licenza.">
+<style>
+:root{--ink:#182635;--muted:#5b6470;--line:#e5e2da;--paper:#fbfaf7;--card:#fff;
+--navy:#14273d;--navy2:#0e1b2e;--amber:#e8a13a;--green:#2e7d4f}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+background:var(--paper);color:var(--ink)}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{background:var(--navy2);color:#fff;position:sticky;top:0;z-index:9;border-bottom:3px solid var(--amber)}
+.nav{display:flex;align-items:center;gap:20px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;color:#fff;text-decoration:none;font-size:17px}
+.logo svg{display:block}
+.nav nav{margin-left:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav nav a{color:#c9d4e2;text-decoration:none;font-size:14px}
+.nav nav a:hover{color:#fff}
+.nav nav a.on{color:var(--amber);font-weight:700}
+.langs button{background:none;border:1px solid #33465e;color:#c9d4e2;font-size:12px;padding:3px 9px;border-radius:12px;cursor:pointer}
+.langs button.on{background:var(--amber);border-color:var(--amber);color:#1c2430;font-weight:700}
+.pagehero{background:var(--navy2);color:#fff;padding:52px 0 46px}
+.pagehero h1{font-size:32px;letter-spacing:-.4px;line-height:1.15}
+.pagehero .muted{color:#b9c5d4;margin-top:8px;font-size:16.5px;max-width:58ch}
+.kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--amber);text-transform:uppercase;margin-bottom:10px}
+section.pad{padding:42px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:12px 0}
+summary{font-weight:700;cursor:pointer;font-size:16px;list-style-position:outside}
+summary:hover{color:var(--navy)}
+details[open]{border-left:4px solid var(--amber)}
+details[open] summary{margin-bottom:8px}
+details p{font-size:14.5px;color:var(--ink)}
+details code{background:#f1f3f6;border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+font:12.5px ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+details p+p{margin-top:8px}
+footer{background:var(--navy2);color:#9fb0c4;padding:30px 0;font-size:13px;margin-top:30px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:#c9d4e2}
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav">
+  <a class="logo" href="index.html">
+    <svg width="30" height="30" viewBox="0 0 512 512" role="img" aria-label="Logo permesso">
+      <rect width="512" height="512" rx="112" fill="#0E1B2C"/>
+      <g fill="none" stroke="#F4F7FA" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M96 176V136Q96 96 136 96H176"/><path d="M336 96H376Q416 96 416 136V176"/>
+        <path d="M416 336V376Q416 416 376 416H336"/><path d="M176 416H136Q96 416 96 376V336"/>
+      </g>
+      <path transform="translate(0 -3)" fill="#2EE6A6" d="M222.500 273.600A72 72 0 1 1 289.500 273.600L311 366Q314 380 300 380H212Q198 380 201 366Z"/>
+    </svg>
+    permesso
+  </a>
+  <nav>
+    <a href="index.html#perche" data-i="nav_why">Perché</a>
+    <a href="index.html#come" data-i="nav_how">Come funziona</a>
+    <a href="tutorial.html" data-i="nav_tutorial">Tutorial</a>
+    <a href="faq.html" class="on" data-i="nav_faq">FAQ</a>
+    <a href="esempio-report.html" data-i="nav_example">Report d'esempio</a>
+    <a href="https://github.com/funkysys-org/permesso" data-i="nav_github">GitHub ↗</a>
+    <span class="langs">
+      <button id="btn-it" class="on" onclick="setLang('it')">IT</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </span>
+  </nav>
+</div></header>
+
+<div class="pagehero"><div class="wrap">
+  <div class="kicker" data-i="faq_k">FAQ</div>
+  <h1 data-i="faq_h">Le domande che ci fanno davvero.</h1>
+  <p class="muted" data-i="faq_l">Dieci risposte dirette. Se la tua non è qui, apri una issue su GitHub: le domande vere diventano FAQ.</p>
+</div></div>
+
+<section class="pad"><div class="wrap">
+
+  <details open>
+    <summary data-i="q1_q">Devo installare altri strumenti per usarlo?</summary>
+    <p data-i="q1_a">No, per l'uso base: i controlli passivi e la copertura WordPress sono integrati e funzionano da subito. nuclei, testssl.sh, ssh-audit e Lynis aggiungono profondità e vengono usati automaticamente se presenti — <code>permesso doctor</code> ti dà i comandi di installazione pronti per la tua piattaforma. Un tool mancante non rompe mai la scansione: viene riportato nel report come «skipped», mai silenzioso.</p>
+  </details>
+
+  <details>
+    <summary data-i="q2_q">Posso scannerizzare un sito che non possiedo?</summary>
+    <p data-i="q2_a">No — e non è un limite, è il prodotto. Ogni scansione richiede un permesso firmato per il target esatto: perimetro, titolare, scadenza. Senza, permesso esce con «UNAUTHORIZED» (exit 2) prima di inviare un solo pacchetto di rete; la firma è HMAC su file, e ogni manomissione viene rifiutata. È così che un report permesso fa anche da registro del consenso.</p>
+  </details>
+
+  <details>
+    <summary data-i="q3_q">Dove finiscono i miei dati e i report?</summary>
+    <p data-i="q3_a">Sul tuo computer. Report e storico vivono in <code>~/.permesso/</code> e nella cartella corrente; nessun cloud, nessun account, nessuna telemetria. Le uniche connessioni in uscita sono verso il target autorizzato e — sui siti WordPress — verso il database CC0 di wpvulnerability.net per l'incrocio delle vulnerabilità.</p>
+  </details>
+
+  <details>
+    <summary data-i="q4_q">Che differenza c'è rispetto a nuclei o WPScan?</summary>
+    <p data-i="q4_a">Gli scanner trovano; permesso fa capire e far fare. nuclei resta dentro permesso come adapter per la profondità, ma il valore è il resto: report che il cliente sa leggere, gate di autorizzazione firmato, monitoraggio con drift, branding per agenzie. WPScan invece non è incluso: licenza dual (uso commerciale a pagamento) e API a 25 chiamate/giorno — incompatibile con chi scansiona siti di clienti.</p>
+  </details>
+
+  <details>
+    <summary data-i="q5_q">Come funziona sui siti WordPress?</summary>
+    <p data-i="q5_a">Tutto built-in, senza WPScan: versione core, plugin e temi enumerati (referenze nella pagina + slug popolari via readme.txt), utenti esposti via REST API, debug.log pubblico, backup di wp-config verificati nel contenuto. Le versioni rilevate vengono incrociate col database CC0 di wpvulnerability.net — che aggrega CVE, Patchstack, Wordfence e WPScan stesso. Più di tre vulnerabilità sullo stesso componente diventano un rilievo sintetico con la gravità peggiore, non un muro di allarmi.</p>
+  </details>
+
+  <details>
+    <summary data-i="q6_q">I report sono in italiano?</summary>
+    <p data-i="q6_a">Sì: <code>--lang it</code>. Ogni rilievo porta «Cosa significa» scritto per chi non fa sicurezza di mestiere, più il rimedio concreto. Le etichette del report e il portale clienti sono localizzati EN/IT; il PDF si esporta con <code>permesso pdf</code>.</p>
+  </details>
+
+  <details>
+    <summary data-i="q7_q">Posso metterci il logo della mia agenzia?</summary>
+    <p data-i="q7_a">Sì, con <code>branding.json</code>: nome, logo testuale, colore accent, footer e lingua finiscono nel report e nel portale. Tu resti la voce davanti al cliente; permesso resta il motore dietro.</p>
+  </details>
+
+  <details>
+    <summary data-i="q8_q">Come lo metto in cron per il monitoraggio notturno?</summary>
+    <p data-i="q8_a">Con <code>permesso monitor</code>: ogni run salva lo storico, confronta col precedente e restituisce exit 10 se compaiono nuovi CRITICAL/HIGH — così cron o la CI se ne accorgono.</p>
+    <p><code>17 3 * * * permesso monitor --target www.tuosito.it --validate --plain-language --lang it</code></p>
+    <p data-i="q8_b">Con lo storico accumulato, <code>permesso portal</code> genera la pagina cliente e la console multi-target: statica, hostabile ovunque.</p>
+  </details>
+
+  <details>
+    <summary data-i="q9_q">Funziona con gli strumenti AI che già uso?</summary>
+    <p data-i="q9_a">Sì: la skill che guida permesso è in formato aperto (SKILL.md) con le regole di autorizzazione incorporate, quindi l'agente chiede sempre conferma di proprietà prima di toccare un target. OpenClaw e Hermes la installano da ClawHub (<code>@funkysys-org/permesso</code>); Claude Code, OpenCode, Codex e Cursor dal repo GitHub con <code>npx skills add funkysys-org/permesso --skill permesso -a &lt;agente&gt;</code>.</p>
+  </details>
+
+  <details>
+    <summary data-i="q10_q">Quanto costa? Che licenza ha?</summary>
+    <p data-i="q10_a">permesso è open source MIT: gratis da usare, modificare e commercializzare. Puoi rivendere i report brandizzati ai tuoi clienti senza pagare nessuno. Gli tool esterni che integra restano delle rispettive licenze (GPL solo come processo esterno, mai incorporato). I dati di vulnerabilità WordPress sono CC0, quindi riutilizzabili anche commercialmente.</p>
+  </details>
+
+</div></section>
+
+<footer><div class="wrap">
+  <div>© 2026 permesso · <a href="https://github.com/funkysys-org/permesso">codice sorgente</a> · MIT</div>
+  <div data-i="f_note">Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu.</div>
+</div></footer>
+
+<script>
+const I18N = {
+ it: {"nav_why":"Perché","nav_how":"Come funziona","nav_tutorial":"Tutorial","nav_faq":"FAQ",
+  "nav_example":"Report d'esempio","nav_github":"GitHub ↗",
+  "faq_k":"FAQ","faq_h":"Le domande che ci fanno davvero.",
+  "faq_l":"Dieci risposte dirette. Se la tua non è qui, apri una issue su GitHub: le domande vere diventano FAQ.",
+  "q1_q":"Devo installare altri strumenti per usarlo?",
+  "q1_a":"No, per l'uso base: i controlli passivi e la copertura WordPress sono integrati e funzionano da subito. nuclei, testssl.sh, ssh-audit e Lynis aggiungono profondità e vengono usati automaticamente se presenti — <code>permesso doctor</code> ti dà i comandi di installazione pronti per la tua piattaforma. Un tool mancante non rompe mai la scansione: viene riportato nel report come «skipped», mai silenzioso.",
+  "q2_q":"Posso scannerizzare un sito che non possiedo?",
+  "q2_a":"No — e non è un limite, è il prodotto. Ogni scansione richiede un permesso firmato per il target esatto: perimetro, titolare, scadenza. Senza, permesso esce con «UNAUTHORIZED» (exit 2) prima di inviare un solo pacchetto di rete; la firma è HMAC su file, e ogni manomissione viene rifiutata. È così che un report permesso fa anche da registro del consenso.",
+  "q3_q":"Dove finiscono i miei dati e i report?",
+  "q3_a":"Sul tuo computer. Report e storico vivono in <code>~/.permesso/</code> e nella cartella corrente; nessun cloud, nessun account, nessuna telemetria. Le uniche connessioni in uscita sono verso il target autorizzato e — sui siti WordPress — verso il database CC0 di wpvulnerability.net per l'incrocio delle vulnerabilità.",
+  "q4_q":"Che differenza c'è rispetto a nuclei o WPScan?",
+  "q4_a":"Gli scanner trovano; permesso fa capire e far fare. nuclei resta dentro permesso come adapter per la profondità, ma il valore è il resto: report che il cliente sa leggere, gate di autorizzazione firmato, monitoraggio con drift, branding per agenzie. WPScan invece non è incluso: licenza dual (uso commerciale a pagamento) e API a 25 chiamate/giorno — incompatibile con chi scansiona siti di clienti.",
+  "q5_q":"Come funziona sui siti WordPress?",
+  "q5_a":"Tutto built-in, senza WPScan: versione core, plugin e temi enumerati (referenze nella pagina + slug popolari via readme.txt), utenti esposti via REST API, debug.log pubblico, backup di wp-config verificati nel contenuto. Le versioni rilevate vengono incrociate col database CC0 di wpvulnerability.net — che aggrega CVE, Patchstack, Wordfence e WPScan stesso. Più di tre vulnerabilità sullo stesso componente diventano un rilievo sintetico con la gravità peggiore, non un muro di allarmi.",
+  "q6_q":"I report sono in italiano?",
+  "q6_a":"Sì: <code>--lang it</code>. Ogni rilievo porta «Cosa significa» scritto per chi non fa sicurezza di mestiere, più il rimedio concreto. Le etichette del report e il portale clienti sono localizzati EN/IT; il PDF si esporta con <code>permesso pdf</code>.",
+  "q7_q":"Posso metterci il logo della mia agenzia?",
+  "q7_a":"Sì, con <code>branding.json</code>: nome, logo testuale, colore accent, footer e lingua finiscono nel report e nel portale. Tu resti la voce davanti al cliente; permesso resta il motore dietro.",
+  "q8_q":"Come lo metto in cron per il monitoraggio notturno?",
+  "q8_a":"Con <code>permesso monitor</code>: ogni run salva lo storico, confronta col precedente e restituisce exit 10 se compaiono nuovi CRITICAL/HIGH — così cron o la CI se ne accorgono.",
+  "q8_b":"Con lo storico accumulato, <code>permesso portal</code> genera la pagina cliente e la console multi-target: statica, hostabile ovunque.",
+  "q9_q":"Funziona con gli strumenti AI che già uso?",
+  "q9_a":"Sì: la skill che guida permesso è in formato aperto (SKILL.md) con le regole di autorizzazione incorporate, quindi l'agente chiede sempre conferma di proprietà prima di toccare un target. OpenClaw e Hermes la installano da ClawHub (<code>@funkysys-org/permesso</code>); Claude Code, OpenCode, Codex e Cursor dal repo GitHub con <code>npx skills add funkysys-org/permesso --skill permesso -a &lt;agente&gt;</code>.",
+  "q10_q":"Quanto costa? Che licenza ha?",
+  "q10_a":"permesso è open source MIT: gratis da usare, modificare e commercializzare. Puoi rivendere i report brandizzati ai tuoi clienti senza pagare nessuno. Gli tool esterni che integra restano delle rispettive licenze (GPL solo come processo esterno, mai incorporato). I dati di vulnerabilità WordPress sono CC0, quindi riutilizzabili anche commercialmente.",
+  "f_note":"Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu."},
+ en: {"nav_why":"Why","nav_how":"How it works","nav_tutorial":"Tutorial","nav_faq":"FAQ",
+  "nav_example":"Sample report","nav_github":"GitHub ↗",
+  "faq_k":"FAQ","faq_h":"The questions people actually ask us.",
+  "faq_l":"Ten straight answers. If yours is missing, open an issue on GitHub: real questions become FAQ entries.",
+  "q1_q":"Do I need to install other tools?",
+  "q1_a":"No, not for the basics: passive checks and WordPress coverage are built in and work out of the box. nuclei, testssl.sh, ssh-audit and Lynis add depth and are used automatically when present — <code>permesso doctor</code> prints copy-paste install commands for your platform. A missing tool never breaks a scan: it is listed in the report as 'skipped', never silent.",
+  "q2_q":"Can I scan a site I don't own?",
+  "q2_a":"No — and that is not a limitation, it is the product. Every scan requires a signed permit for the exact target: scope, owner, expiry. Without one, permesso exits with 'UNAUTHORIZED' (exit 2) before sending a single network packet; the signature is an HMAC on file and any tampering is rejected. A permesso report doubles as a record of consent.",
+  "q3_q":"Where do my data and reports go?",
+  "q3_a":"On your machine. Reports and history live under <code>~/.permesso/</code> and your working directory; no cloud, no account, no telemetry. The only outbound connections go to the authorized target and — on WordPress sites — to the CC0 wpvulnerability.net database for vulnerability matching.",
+  "q4_q":"How is this different from nuclei or WPScan?",
+  "q4_a":"Scanners find; permesso makes people understand and act. nuclei stays inside permesso as a depth adapter, but the value is everything else: reports a client can read, a signed authorization gate, drift monitoring, agency branding. WPScan is not included: dual license (commercial use is paid) and a 25-calls/day API cap — incompatible with scanning client sites.",
+  "q5_q":"How does it work on WordPress sites?",
+  "q5_a":"All built-in, without WPScan: core version, plugins and themes enumerated (page references + popular slugs via readme.txt), REST user exposure, public debug.log, content-verified wp-config backups. Detected versions are matched against the CC0 wpvulnerability.net database — which aggregates CVE, Patchstack, Wordfence and WPScan itself. More than three vulnerabilities on one component collapse into one readable finding with the worst severity, not a wall of alarms.",
+  "q6_q":"Are the reports in English (or Italian)?",
+  "q6_a":"Both: <code>--lang en</code> or <code>--lang it</code>. Every finding carries a 'What this means' text written for non-experts, plus the concrete fix. Report labels and the client portal are localized EN/IT; PDF exports with <code>permesso pdf</code>.",
+  "q7_q":"Can I put my agency's branding on it?",
+  "q7_a":"Yes, with <code>branding.json</code>: name, text logo, accent color, footer and language land in the report and the portal. You stay the voice in front of the client; permesso stays the engine behind.",
+  "q8_q":"How do I schedule nightly monitoring?",
+  "q8_a":"With <code>permesso monitor</code>: every run keeps history, diffs against the previous run and exits with code 10 when new CRITICAL/HIGH findings appear — so cron or CI notice.",
+  "q8_b":"Once history accumulates, <code>permesso portal</code> builds the client page and the multi-target console: static, hostable anywhere.",
+  "q9_q":"Does it work with the AI tools I already use?",
+  "q9_a":"Yes: the skill that drives permesso ships in the open SKILL.md format with the authorization rules baked in, so the agent always confirms ownership before touching a target. OpenClaw and Hermes install it from ClawHub (<code>@funkysys-org/permesso</code>); Claude Code, OpenCode, Codex and Cursor from the GitHub repo with <code>npx skills add funkysys-org/permesso --skill permesso -a &lt;agent&gt;</code>.",
+  "q10_q":"How much does it cost? What license?",
+  "q10_a":"permesso is MIT open source: free to use, modify and commercialize. You can resell branded reports to your clients without owing anyone. External tools it drives keep their own licenses (GPL ones run as external processes only, never embedded). The WordPress vulnerability data is CC0, commercially reusable.",
+  "f_note":"Only scan what you are authorized to test. The permit is yours to sign."}
+};
+function setLang(l){
+  document.documentElement.lang = l;
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    const v = I18N[l][el.dataset.i]; if(v!==undefined) el.innerHTML=v;
+  });
+  document.getElementById("btn-it").classList.toggle("on",l==="it");
+  document.getElementById("btn-en").classList.toggle("on",l==="en");
+  try{localStorage.setItem("permesso-lang",l)}catch(e){}
+}
+try{const s=localStorage.getItem("permesso-lang"); if(s&&s!=="it") setLang(s);}catch(e){}
+</script>
+</body>
+</html>

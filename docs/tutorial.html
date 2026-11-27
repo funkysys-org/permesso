@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>permesso — Tutorial: dal primo permesso al primo report</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta name="description" content="Tutorial pratico di permesso: installa, autorizza il tuo target, scannerizza, leggi il report e metti il monitoraggio in cron. Dieci minuti.">
+<style>
+:root{--ink:#182635;--muted:#5b6470;--line:#e5e2da;--paper:#fbfaf7;--card:#fff;
+--navy:#14273d;--navy2:#0e1b2e;--amber:#e8a13a;--green:#2e7d4f}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+background:var(--paper);color:var(--ink)}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{background:var(--navy2);color:#fff;position:sticky;top:0;z-index:9;border-bottom:3px solid var(--amber)}
+.nav{display:flex;align-items:center;gap:20px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;color:#fff;text-decoration:none;font-size:17px}
+.logo svg{display:block}
+.nav nav{margin-left:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav nav a{color:#c9d4e2;text-decoration:none;font-size:14px}
+.nav nav a:hover{color:#fff}
+.nav nav a.on{color:var(--amber);font-weight:700}
+.langs button{background:none;border:1px solid #33465e;color:#c9d4e2;font-size:12px;padding:3px 9px;border-radius:12px;cursor:pointer}
+.langs button.on{background:var(--amber);border-color:var(--amber);color:#1c2430;font-weight:700}
+.pagehero{background:var(--navy2);color:#fff;padding:52px 0 46px}
+.pagehero h1{font-size:32px;letter-spacing:-.4px;line-height:1.15}
+.pagehero .muted{color:#b9c5d4;margin-top:8px;font-size:16.5px;max-width:58ch}
+.kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--amber);text-transform:uppercase;margin-bottom:10px}
+section.pad{padding:42px 0}
+h2{font-size:22px;letter-spacing:-.3px;margin-bottom:4px}
+.lead{color:var(--muted);max-width:64ch;margin-bottom:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin:14px 0}
+.card h3{font-size:17px;margin:12px 0 6px}
+.card p{font-size:14.5px;color:var(--ink)}
+.card .note{font-size:13.5px;color:var(--muted);margin-top:8px}
+.n{display:inline-flex;width:30px;height:30px;border-radius:9px;background:var(--navy);color:var(--amber);font-weight:800;align-items:center;justify-content:center;font-size:14px;margin-bottom:12px}
+.cli{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:#f1f3f6;border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:block;white-space:pre-wrap;margin:12px 0 2px;word-break:break-word}
+.out{font:12.5px/1.7 ui-monospace,Menlo,Consolas,monospace;background:#0a1420;color:#c9d4e2;border-radius:10px;padding:12px 14px;margin:12px 0 2px;white-space:pre-wrap}
+.out .g{color:#8fd0a0}.out .a{color:var(--amber)}
+.btn{display:inline-block;padding:10px 18px;border-radius:9px;text-decoration:none;font-weight:700;font-size:14.5px}
+.btn.pri{background:var(--amber);color:#1c2430}.btn.sec{border:1.5px solid #3a4d66;color:#e7edf4}
+.band{background:var(--navy);color:#fff;text-align:center;padding:44px 22px}
+.band p{font-size:19px;font-weight:700;max-width:34ch;margin:0 auto 16px}
+footer{background:var(--navy2);color:#9fb0c4;padding:30px 0;font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:#c9d4e2}
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav">
+  <a class="logo" href="index.html">
+    <svg width="30" height="30" viewBox="0 0 512 512" role="img" aria-label="Logo permesso">
+      <rect width="512" height="512" rx="112" fill="#0E1B2C"/>
+      <g fill="none" stroke="#F4F7FA" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M96 176V136Q96 96 136 96H176"/><path d="M336 96H376Q416 96 416 136V176"/>
+        <path d="M416 336V376Q416 416 376 416H336"/><path d="M176 416H136Q96 416 96 376V336"/>
+      </g>
+      <path transform="translate(0 -3)" fill="#2EE6A6" d="M222.500 273.600A72 72 0 1 1 289.500 273.600L311 366Q314 380 300 380H212Q198 380 201 366Z"/>
+    </svg>
+    permesso
+  </a>
+  <nav>
+    <a href="index.html#perche" data-i="nav_why">Perché</a>
+    <a href="index.html#come" data-i="nav_how">Come funziona</a>
+    <a href="tutorial.html" class="on" data-i="nav_tutorial">Tutorial</a>
+    <a href="faq.html" data-i="nav_faq">FAQ</a>
+    <a href="esempio-report.html" data-i="nav_example">Report d'esempio</a>
+    <a href="https://github.com/funkysys-org/permesso" data-i="nav_github">GitHub ↗</a>
+    <span class="langs">
+      <button id="btn-it" class="on" onclick="setLang('it')">IT</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </span>
+  </nav>
+</div></header>
+
+<div class="pagehero"><div class="wrap">
+  <div class="kicker" data-i="tut_k">Tutorial</div>
+  <h1 data-i="tut_h">Dal primo permesso al primo report, in dieci minuti.</h1>
+  <p class="muted" data-i="tut_l">Tutto ciò che segue l'ho fatto davvero, comando per comando. Copia, incolla, e alla fine hai un report che un non esperto sa leggere — e un monitoraggio che parte ogni notte da solo.</p>
+</div></div>
+
+<section class="pad"><div class="wrap">
+
+  <div class="card">
+    <span class="n">0</span>
+    <h3 data-i="s0_t">Requisiti</h3>
+    <p data-i="s0_d">Linux o macOS con Python ≥ 3.10. Nessuna dipendenza Python, nessuna API key. Su Debian/Ubuntu basta pipx:</p>
+    <code class="cli">sudo apt install pipx git
+pipx ensurepath   # poi riapri il terminale</code>
+  </div>
+
+  <div class="card">
+    <span class="n">1</span>
+    <h3 data-i="s1_t">Installa e fai il check dell'ambiente</h3>
+    <code class="cli">pipx install permesso
+permesso doctor</code>
+    <p class="note" data-i="s1_d">doctor mostra cosa è pronto e cosa manca, con i comandi di installazione pronti per la tua piattaforma. Un tool mancante non rompe mai la scansione: finisce nel report come "skipped", alla luce del sole.</p>
+  </div>
+
+  <div class="card">
+    <span class="n">2</span>
+    <h3 data-i="s2_t">Autorizza il tuo target</h3>
+    <p data-i="s2_d">Il gate è il prodotto: firmi un permesso con perimetro, titolare e scadenza. Senza permesso valido, permesso esce prima di inviare un solo pacchetto.</p>
+    <code class="cli">permesso keygen
+permesso authorize --target www.tuosito.it --owner tu@email.it --days 30</code>
+    <p class="note" data-i="s2_n">Con --scope domain il permesso copre anche i sottodomini. File manomesso o scaduto → "UNAUTHORIZED", exit 2.</p>
+  </div>
+
+  <div class="card">
+    <span class="n">3</span>
+    <h3 data-i="s3_t">Prima scansione</h3>
+    <code class="cli">permesso scan --target www.tuosito.it \
+  --validate --plain-language --lang it --out report.html</code>
+    <p data-i="s3_d">Otterrai due file: report.html (quello che consegni) e il JSON della scansione (quello che rileggi). In console:</p>
+    <div class="out"><span class="g">scan complete: 8 finding(s)</span> (C:0 H:0 M:2 L:4 I:2)
+report: report.html
+json:   scan-www.tuosito.it-20261127-120000.json</div>
+  </div>
+
+  <div class="card">
+    <span class="n">4</span>
+    <h3 data-i="s4_t">Leggi il report</h3>
+    <p data-i="s4_d">In cima: i conteggi per gravità e la validazione. Ogni rilievo dice "Cosa significa" in italiano, il rimedio concreto e le evidenze. I rilievi con il badge ✓ sono stati riverificati con una seconda osservazione indipendente; i transitori (non riprodotti) vengono evidenziati, non spacciati per reali. I controlli che non hai potuto eseguire sono elencati: mai una promessa silenziosa.</p>
+  </div>
+
+  <div class="card">
+    <span class="n">5</span>
+    <h3 data-i="s5_t">Siti WordPress: tutto automatico</h3>
+    <p data-i="s5_d">Se il target è WordPress non configuri niente: permesso enumera versione core, plugin (referenze nella pagina + slug popolari via readme.txt) e temi; controlla utenti esposti via REST, debug.log e backup di wp-config verificati nel contenuto; poi incrocia le versioni con il database CC0 di wpvulnerability.net. WPScan non serve — né la sua licenza commerciale.</p>
+  </div>
+
+  <div class="card">
+    <span class="n">6</span>
+    <h3 data-i="s6_t">Monitoraggio continuo</h3>
+    <p data-i="s6_d">monitor salva lo storico, confronta ogni run col precedente e restituisce exit 10 quando compaiono nuovi problemi gravi — perfetto per cron, CI o una mail d'allerta:</p>
+    <code class="cli"># crontab -e
+17 3 * * * permesso monitor --target www.tuosito.it \
+  --validate --plain-language --lang it
+permesso portal   # pagina cliente + console dallo storico</code>
+    <p class="note" data-i="s6_n">Lo storico vive in ~/.permesso/history/&lt;host&gt;/ — sul tuo disco, come tutto il resto.</p>
+  </div>
+
+  <div class="card">
+    <span class="n">7</span>
+    <h3 data-i="s7_t">Branding e consegna (per agenzie)</h3>
+    <p data-i="s7_d">Metti nome, colore e footer della tua agenzia nel report che consegni al cliente; il PDF si esporta con un comando se hai Chromium o wkhtmltopdf:</p>
+    <code class="cli">cat &gt; branding.json &lt;&lt;'EOF'
+{"agency_name": "La tua agenzia", "logo_text": "La tua agenzia · Security",
+ "accent_color": "#7c2d12", "footer": "Report riservato al cliente.", "language": "it"}
+EOF
+permesso scan --target www.cliente.it --branding branding.json --out report.html
+permesso pdf report.html</code>
+  </div>
+
+</div></section>
+
+<div class="band"><div>
+  <p data-i="tut_next">Prossimi passi</p>
+  <a class="btn pri" href="faq.html" data-i="tut_next_faq">Leggi le FAQ</a>
+  <a class="btn sec" style="margin-left:8px" href="esempio-report.html" data-i="tut_next_rep">Vedi un report vero</a>
+</div></div>
+
+<footer><div class="wrap">
+  <div>© 2026 permesso · <a href="https://github.com/funkysys-org/permesso">codice sorgente</a> · MIT</div>
+  <div data-i="f_note">Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu.</div>
+</div></footer>
+
+<script>
+const I18N = {
+ it: {"nav_why":"Perché","nav_how":"Come funziona","nav_tutorial":"Tutorial","nav_faq":"FAQ",
+  "nav_example":"Report d'esempio","nav_github":"GitHub ↗",
+  "tut_k":"Tutorial","tut_h":"Dal primo permesso al primo report, in dieci minuti.",
+  "tut_l":"Tutto ciò che segue si fa davvero, comando per comando. Copia, incolla, e alla fine hai un report che un non esperto sa leggere — e un monitoraggio che parte ogni notte da solo.",
+  "s0_t":"Requisiti","s0_d":"Linux o macOS con Python ≥ 3.10. Nessuna dipendenza Python, nessuna API key. Su Debian/Ubuntu basta pipx:",
+  "s1_t":"Installa e fai il check dell'ambiente",
+  "s1_d":"doctor mostra cosa è pronto e cosa manca, con i comandi di installazione pronti per la tua piattaforma. Un tool mancante non rompe mai la scansione: finisce nel report come «skipped», alla luce del sole.",
+  "s2_t":"Autorizza il tuo target",
+  "s2_d":"Il gate è il prodotto: firmi un permesso con perimetro, titolare e scadenza. Senza permesso valido, permesso esce prima di inviare un solo pacchetto di rete.",
+  "s2_n":"Con --scope domain il permesso copre anche i sottodomini. File manomesso o scaduto → «UNAUTHORIZED», exit 2.",
+  "s3_t":"Prima scansione",
+  "s3_d":"Otterrai due file: report.html (quello che consegni) e il JSON della scansione (quello che rileggi). In console:",
+  "s4_t":"Leggi il report",
+  "s4_d":"In cima: i conteggi per gravità e la validazione. Ogni rilievo dice «Cosa significa» in italiano, il rimedio concreto e le evidenze. I rilievi con il badge ✓ sono stati riverificati con una seconda osservazione indipendente; i transitori (non riprodotti) vengono evidenziati, non spacciati per reali. I controlli che non hai potuto eseguire sono elencati: mai una promessa silenziosa.",
+  "s5_t":"Siti WordPress: tutto automatico",
+  "s5_d":"Se il target è WordPress non configuri niente: permesso enumera versione core, plugin (referenze nella pagina + slug popolari via readme.txt) e temi; controlla utenti esposti via REST, debug.log e backup di wp-config verificati nel contenuto; poi incrocia le versioni con il database CC0 di wpvulnerability.net. WPScan non serve — né la sua licenza commerciale.",
+  "s6_t":"Monitoraggio continuo",
+  "s6_d":"monitor salva lo storico, confronta ogni run col precedente e restituisce exit 10 quando compaiono nuovi problemi gravi — perfetto per cron, CI o una mail d'allerta:",
+  "s6_n":"Lo storico vive in ~/.permesso/history/<host>/ — sul tuo disco, come tutto il resto.",
+  "s7_t":"Branding e consegna (per agenzie)",
+  "s7_d":"Metti nome, colore e footer della tua agenzia nel report che consegni al cliente; il PDF si esporta con un comando se hai Chromium o wkhtmltopdf:",
+  "tut_next":"Prossimi passi","tut_next_faq":"Leggi le FAQ","tut_next_rep":"Vedi un report vero",
+  "f_note":"Scansiona solo ciò che sei autorizzato a testare. Il permesso lo firmi tu."},
+ en: {"nav_why":"Why","nav_how":"How it works","nav_tutorial":"Tutorial","nav_faq":"FAQ",
+  "nav_example":"Sample report","nav_github":"GitHub ↗",
+  "tut_k":"Tutorial","tut_h":"From your first permit to your first report, in ten minutes.",
+  "tut_l":"Everything below is a real workflow, command by command. Copy, paste, and you end up with a report a non-expert can read — and a nightly monitoring routine that runs on its own.",
+  "s0_t":"Requirements","s0_d":"Linux or macOS with Python ≥ 3.10. No Python dependencies, no API keys. On Debian/Ubuntu pipx is all you need:",
+  "s1_t":"Install and check your environment",
+  "s1_d":"doctor shows what is ready and what is missing, with copy-paste install commands for your platform. A missing tool never breaks a scan: it is listed in the report as 'skipped', in plain sight.",
+  "s2_t":"Authorize your target",
+  "s2_d":"The gate is the product: you sign a permit with scope, owner and expiry. Without a valid permit, permesso exits before sending a single network packet.",
+  "s2_n":"Use --scope domain to cover subdomains too. A tampered or expired file → 'UNAUTHORIZED', exit 2.",
+  "s3_t":"First scan",
+  "s3_d":"You get two files: report.html (the one you hand over) and the scan JSON (the one you re-read). On the console:",
+  "s4_t":"Read the report",
+  "s4_d":"At the top: severity counts and the validation note. Every finding carries 'What this means' in plain language, the concrete fix, and evidence. Findings with a ✓ badge were re-confirmed by an independent second observation; transients (not reproduced) are flagged, never passed off as real. Checks you could not run are listed — never a silent promise.",
+  "s5_t":"WordPress sites: fully automatic",
+  "s5_d":"If the target runs WordPress you configure nothing: permesso enumerates the core version, plugins (page references + popular slugs via readme.txt) and themes; checks REST user exposure, debug.log and content-verified wp-config backups; then matches versions against the CC0 wpvulnerability.net database. WPScan is not needed — nor its commercial license.",
+  "s6_t":"Continuous monitoring",
+  "s6_d":"monitor keeps history, diffs every run against the previous one and exits with code 10 when new serious issues appear — perfect for cron, CI or an alert email:",
+  "s6_n":"History lives under ~/.permesso/history/<host>/ — on your disk, like everything else.",
+  "s7_t":"Branding and delivery (for agencies)",
+  "s7_d":"Put your agency's name, color and footer on the report you hand the client; PDF export is one command if you have Chromium or wkhtmltopdf:",
+  "tut_next":"Next steps","tut_next_faq":"Read the FAQ","tut_next_rep":"See a real report",
+  "f_note":"Only scan what you are authorized to test. The permit is yours to sign."}
+};
+function setLang(l){
+  document.documentElement.lang = l;
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    const v = I18N[l][el.dataset.i]; if(v!==undefined) el.innerHTML=v;
+  });
+  document.getElementById("btn-it").classList.toggle("on",l==="it");
+  document.getElementById("btn-en").classList.toggle("on",l==="en");
+  try{localStorage.setItem("permesso-lang",l)}catch(e){}
+}
+try{const s=localStorage.getItem("permesso-lang"); if(s&&s!=="it") setLang(s);}catch(e){}
+</script>
+</body>
+</html>
