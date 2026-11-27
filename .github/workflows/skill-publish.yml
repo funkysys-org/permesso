@@ -1,33 +1,41 @@
-# ClawHub catalog publish — reusable workflow from openclaw/clawhub.
+# ClawHub skill publish — NATIVE workflow (no cross-repo reusable workflow:
+# org Actions policies commonly block those with a silent startup_failure;
+# this one only uses GitHub-owned actions + the clawhub CLI in shell).
 #
-# CURRENT MODE: DRY RUN (preview only, no token needed).
+# Setup (one-time, owner): run `clawhub token` on your logged-in machine,
+# paste the result as repo secret CLAWHUB_TOKEN. Until then every run goes
+# green with a notice and publishes nothing.
 #
-# If this workflow shows startup_failure:
-#   → repo/org Settings → Actions → General → Actions permissions must allow
-#     "all actions and reusable workflows" (the call targets openclaw/clawhub,
-#     a repo outside funkysys-org).
-#
-# To publish for real (owner, one-time):
-#   1. npm i -g clawhub && clawhub login    (device flow, GitHub sign-in)
-#   2. Add repo secret CLAWHUB_TOKEN        (clawhub token — from `clawhub token`)
-#   3. Flip dry_run below to false
-#
-# Manual fallback (no CI needed, from the owner's machine):
-#   clawhub skill publish skills/permesso \
-#     --slug permesso --name "permesso" \
-#     --categories security,operations \
-#     --topics "vulnerability-scanning,hardening,reports"
-#
-# Note: skills published on ClawHub are released under MIT-0 (registry rule).
+# Publishing a skill on ClawHub releases its text under MIT-0 (registry rule).
 name: ClawHub skill publish
 on:
   push:
     branches: [main]
-    paths: ["skills/**"]
+    paths: ["skills/**", ".github/workflows/skill-publish.yml"]
   workflow_dispatch: {}
+permissions:
+  contents: read
 jobs:
   publish:
-    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
-    with:
-      owner: funkysys-org
-      dry_run: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Publish skill to ClawHub
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+        run: |
+          if [ -z "$CLAWHUB_TOKEN" ]; then
+            echo "::notice::CLAWHUB_TOKEN secret not set — publish skipped. Create a token with 'clawhub token' and add it to the repo secrets to enable CI publishing."
+            exit 0
+          fi
+          npm install -g clawhub
+          clawhub login --token "$CLAWHUB_TOKEN" --no-input
+          clawhub skill publish skills/permesso \
+            --slug permesso --name "permesso" \
+            --categories security,operations \
+            --topics "vulnerability-scanning,hardening,reports"
