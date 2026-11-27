@@ -98,6 +98,8 @@ anything beyond this list, ask the user first and let them decide.
 
 - Missing optional tools are listed as **skipped** in the report. Tell the
   user what was *not* checked — never imply a clean bill of health.
+- Nothing here is a pentest: permesso does not attempt exploitation — do not
+  present the report as one.
 - First nuclei run downloads its template database (a few minutes, once).
 - The authorization file is HMAC-signed with scope and expiry: tampering,
   expiry or a different host aborts the scan with exit 2 before any packet.
