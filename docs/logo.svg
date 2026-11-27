@@ -1,16 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Logo VPN">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Permesso logo">
   <rect width="512" height="512" rx="112" fill="#0E1B2C"/>
-  <!-- scudo -->
-  <path fill="none" stroke="#F4F7FA" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" d="M256 82L408 138V256C408 344 348 404 256 438C164 404 104 344 104 256V138Z"/>
-  <!-- due anelli intrecciati: 2FA -->
-  <g fill="none" stroke="#2EE6A6" stroke-width="26">
-    <circle cx="220" cy="250" r="58"/>
-    <circle cx="292" cy="250" r="58"/>
-    <!-- incrocio superiore: passa sopra l'anello sinistro -->
-    <path stroke="#0E1B2C" stroke-width="44" d="M236.0 194.2A58 58 0 0 1 270.7 221.9"/>
-    <path d="M220.0 192.0A58 58 0 0 1 276.7 237.9"/>
-    <!-- incrocio inferiore: passa sopra l'anello destro -->
-    <path stroke="#0E1B2C" stroke-width="44" d="M276.0 305.8A58 58 0 0 1 241.3 278.1"/>
-    <path d="M292.0 308.0A58 58 0 0 1 235.3 262.1"/>
+  <!-- scan brackets -->
+  <g fill="none" stroke="#F4F7FA" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 176V136Q96 96 136 96H176"/>
+    <path d="M336 96H376Q416 96 416 136V176"/>
+    <path d="M416 336V376Q416 416 376 416H336"/>
+    <path d="M176 416H136Q96 416 96 376V336"/>
   </g>
+  <!-- keyhole -->
+  <path transform="translate(0 -3)" fill="#2EE6A6" d="M222.500 273.600A72 72 0 1 1 289.500 273.600L311 366Q314 380 300 380H212Q198 380 201 366Z"/>
 </svg>
