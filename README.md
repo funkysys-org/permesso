@@ -111,7 +111,7 @@ npx skills add funkysys-org/permesso --skill permesso -a opencode
 
 # OpenClaw / Hermes (ClawHub registry — moderation verdict: clean)
 openclaw skills install @funkysys-org/permesso
-# page: https://clawhub.ai/skills/permesso
+# page: https://clawhub.ai/funkysys-org/skills/permesso
 ```
 
 Note: Claude Code does not read the shared `.agents/skills/` folder — for it,
