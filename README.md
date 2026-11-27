@@ -39,6 +39,9 @@ SMBs and web agencies. One command, a report a human can act on.
    drift, and links to every report. Host the folder anywhere.
 8. **PDF (`permesso pdf report.html`)** — export via wkhtmltopdf or headless
    Chromium when available; a clear install hint when not.
+9. **WordPress (built-in)** — detection, plugin/theme enumeration, user/log/
+   config exposure, and vulnerability matching against the CC0
+   wpvulnerability.net database. No WPScan, no commercial license needed.
 
 ## Quickstart
 
@@ -117,6 +120,27 @@ openclaw skills install @funkysys-org/permesso
 Note: Claude Code does not read the shared `.agents/skills/` folder — for it,
 the `.claude/skills/` copy is required (the `-a claude-code` install puts it
 there).
+
+## WordPress scanning (built-in)
+
+On WordPress sites permesso adds a dedicated layer, with no external tools
+and no licensing:
+
+- **Enumeration (own code):** core version (meta/readme/feed), plugins
+  (HTML references + popular-slug probe via `readme.txt`, live popular list
+  from api.wordpress.org with a bundled fallback), themes, users exposed
+  through the REST API, exposed `debug.log`, content-verified `wp-config`
+  backups.
+- **Vulnerability matching:** every detected component is checked against
+  the [WPVulnerability](https://www.wpvulnerability.net/) database
+  (CC0 1.0 data, aggregated from CVE, EUVD, JVN, Patchstack, Wordfence and
+  WPScan). Version ranges are matched client-side with PHP
+  `version_compare` semantics; more than three matches aggregate into one
+  readable finding with the worst severity.
+- **Deliberately not shipped: WPScan** — its scanner is dual-licensed
+  (commercial use requires a paid license) and its vulnerability API is
+  capped at 25 free calls/day, which does not fit agencies scanning client
+  sites. The CC0 database covers the same need without either constraint.
 
 Local demo (no external target):
 

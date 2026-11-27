@@ -41,6 +41,12 @@ _MEANINGS: dict[str, str] = {
     "info": (
         "Osservazione a basso impatto: utile per la pulizia, non urgente."
     ),
+    "wordpress": (
+        "Una fuga di informazioni specifica di WordPress: versioni, componenti "
+        "installati o nomi utente che un attaccante userebbe per pianificare "
+        "la prossima mossa. È una porta aperta, non un'effrazione: sistemala "
+        "per ridurre la superficie d'attacco."
+    ),
 }
 
 _EN: dict[str, str] = {
@@ -68,6 +74,11 @@ _EN: dict[str, str] = {
         "default settings that intruders probe first are still active."
     ),
     "info": "Low-impact observation — useful for cleanup, not urgent.",
+    "wordpress": (
+        "A WordPress-specific leak: version numbers, installed components or "
+        "user names that an attacker would use to plan the next move. It is "
+        "an open door, not a break-in — fix it to shrink the attack surface."
+    ),
 }
 
 _LANGS = {"en": _EN, "it": _MEANINGS}
@@ -110,6 +121,20 @@ _SPECIFIC = {
         ("self-signed",
          "Visitors get a security warning and nothing verifies the server's "
          "identity: anyone can impersonate it."),
+        ("user enumeration",
+         "Anyone can list the site's usernames without logging in — the exact "
+         "shortlist attackers use for password guessing and targeted phishing."),
+        ("debug.log",
+         "The site's internal error log is public: database queries, file "
+         "paths and version clues — free reconnaissance for an attacker."),
+        ("config backup",
+         "A backup of wp-config.php — database password and secret keys "
+         "included — is downloadable by anyone. Assume those credentials are "
+         "burned: delete the file and rotate them now."),
+        ("version disclosed",
+         "The exact version is public: attackers match it to known "
+         "vulnerabilities automatically. Update first; hiding the version "
+         "second."),
     ],
     "it": [
         ("strict-transport-security",
@@ -142,6 +167,22 @@ _SPECIFIC = {
         ("self-signed",
          "I visitatori vedono un avviso di sicurezza e nessuno verifica "
          "l'identità del server: chiunque può impersonarlo."),
+        ("user enumeration",
+         "Chiunque può elencare i nomi utente del sito senza accedere: è la "
+         "lista che gli attaccanti usano per indovinare password e per "
+         "phishing mirato."),
+        ("debug.log",
+         "Il log interno degli errori del sito è pubblico: query del "
+         "database, percorsi di file e indizi sulle versioni — ricognizione "
+         "gratis per un attaccante."),
+        ("config backup",
+         "Un backup di wp-config.php — password del database e chiavi segrete "
+         "incluse — è scaricabile da chiunque. Considera quelle credenziali "
+         "compromesse: elimina il file e ruotale subito."),
+        ("version disclosed",
+         "La versione esatta è pubblica: gli attaccanti la abbinano "
+         "automaticamente alle vulnerabilità note. Prima aggiorna; poi nascondi "
+         "la versione."),
     ],
 }
 

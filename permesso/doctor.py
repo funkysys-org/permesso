@@ -13,6 +13,14 @@ import sys
 from .adapters import _extended_registry
 
 RECIPES: dict[str, dict] = {
+    "wordpress": {
+        "role": "WordPress coverage, built-in: core/plugin/theme detection, "
+                "plugin enumeration, user exposure, config/log leaks, and "
+                "vulnerability matching against the CC0 wpvulnerability.net "
+                "database — no external tool or license needed",
+        "linux": "# built-in, nothing to install (data: wpvulnerability.net, CC0)",
+        "macos": "# built-in, nothing to install (data: wpvulnerability.net, CC0)",
+    },
     "nuclei": {
         "role": "template-based web vulnerability scanning (the deep web checks)",
         "linux": (
@@ -74,7 +82,7 @@ def adapter_rows() -> list[dict]:
     reg = _extended_registry()
     platform = "macos" if sys.platform == "darwin" else "linux"
     rows = []
-    for name in ("passive", "nuclei", "testssl", "ssh_audit", "lynis"):
+    for name in ("passive", "wordpress", "nuclei", "testssl", "ssh_audit", "lynis"):
         cls = reg.get(name)
         if cls is None:
             rows.append({"name": name, "status": "missing",
@@ -86,7 +94,7 @@ def adapter_rows() -> list[dict]:
                "role": RECIPES.get(name, {}).get("role", ""),
                "recipe": RECIPES.get(name, {}).get(platform, ""),
                "platform": platform}
-        if name == "passive":
+        if name in ("passive", "wordpress"):
             row["status"] = "built-in"
         elif name == "lynis" and not ok:
             row["status"] = "server-side"

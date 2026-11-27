@@ -4,16 +4,18 @@ from __future__ import annotations
 from .base import Adapter
 from .nuclei import NucleiAdapter
 from .passive import PassiveAdapter
+from .wordpress import WordpressAdapter
 
-# Optional heavy tools are imported lazily so the stdlib core never breaks.
 _REGISTRY: dict[str, type[Adapter]] = {
     "passive": PassiveAdapter,
+    "wordpress": WordpressAdapter,   # stdlib-only (urllib) — never lazy
     "nuclei": NucleiAdapter,
 }
 
 
 def _extended_registry() -> dict[str, type[Adapter]]:
     reg = dict(_REGISTRY)
+    # Optional heavy tools are imported lazily so the stdlib core never breaks.
     try:
         from .testssl import TestsslAdapter
         reg["testssl"] = TestsslAdapter
@@ -32,7 +34,7 @@ def _extended_registry() -> dict[str, type[Adapter]]:
     return reg
 
 
-ALL_ADAPTERS = ("passive", "nuclei", "testssl", "ssh_audit", "lynis")
+ALL_ADAPTERS = ("passive", "wordpress", "nuclei", "testssl", "ssh_audit", "lynis")
 
 
 def resolve(names: str | None) -> list[Adapter]:

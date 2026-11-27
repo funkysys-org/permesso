@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0 — 2026-11-27
+
+- **WordPress adapter (built-in, MIT-clean — no WPScan, no license):**
+  fingerprint + core version, plugin enumeration (HTML references plus
+  popular slugs via readme.txt, with the live popular list from
+  api.wordpress.org and a bundled fallback), theme references, REST user
+  enumeration, exposed debug.log, content-verified wp-config backups.
+- **`wpvuln.py`** — client for the wpvulnerability.net database (data CC0 1.0):
+  operator-aware version matching (PHP version_compare semantics), severity
+  from CVSS, references preserved; >3 matches aggregate into one readable
+  finding (worst severity + top references). API failures degrade to an INFO
+  note, never a silent pass.
+- Writer: WordPress-specific meanings (users/debug.log/config/version), EN+IT.
+- doctor: wordpress row (built-in). 61 tests; e2e verified against a live
+  wpvulnerability.net call.
+
 ## 0.3.0 — 2026-11-26
 
 - **`--validate`** — non-destructive finding validation: passive findings

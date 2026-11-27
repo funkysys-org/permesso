@@ -19,10 +19,12 @@ class DoctorTest(unittest.TestCase):
                 any(k in joined for k in ("install", "clone", "curl", "pipx", "apt")),
                 f"{name} recipe has no actionable command")
 
-    def test_adapter_rows_covers_all_five(self):
+    def test_adapter_rows_covers_all_six(self):
         rows = {r["name"]: r for r in doctor.adapter_rows()}
-        self.assertEqual(set(rows), {"passive", "nuclei", "testssl", "ssh_audit", "lynis"})
+        self.assertEqual(set(rows), {"passive", "wordpress", "nuclei",
+                                     "testssl", "ssh_audit", "lynis"})
         self.assertEqual(rows["passive"]["status"], "built-in")
+        self.assertEqual(rows["wordpress"]["status"], "built-in")
         # lynis missing on a scanning machine is 'server-side', not an error
         if not rows["lynis"]["ok"]:
             self.assertEqual(rows["lynis"]["status"], "server-side")
