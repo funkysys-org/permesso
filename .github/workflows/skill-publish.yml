@@ -11,7 +11,7 @@ name: ClawHub skill publish
 on:
   push:
     branches: [main]
-    paths: ["skills/**", ".github/workflows/skill-publish.yml"]
+    paths: ["skills/**"]   # NOT the workflow file: CI tweaks must not re-publish
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -38,7 +38,16 @@ jobs:
             echo "::error::clawhub login failed — the CLAWHUB_TOKEN secret is invalid or malformed. Run 'clawhub whoami' locally to verify your session, 'clawhub token' to print the exact value, and paste it with no quotes, spaces or newlines."
             exit 1
           }
-          clawhub skill publish skills/permesso \
+          set +e
+          OUT=$(clawhub skill publish skills/permesso \
             --slug permesso --name "permesso" \
             --categories security,operations \
-            --topics "vulnerability-scanning,hardening,reports"
+            --topics "vulnerability-scanning,hardening,reports" 2>&1)
+          RC=$?
+          set -e
+          if [ $RC -ne 0 ] && echo "$OUT" | grep -q "already exists"; then
+            echo "::notice::The same content is already on ClawHub (same version number, likely pending its security scan) — nothing to publish."
+            exit 0
+          fi
+          echo "$OUT"
+          exit $RC
